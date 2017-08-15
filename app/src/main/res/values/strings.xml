@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name"></string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="title_activity_user">UserActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+
+    <string name="menu_home_string">Home</string>
+    <string name="menu_login_string">Login or Register</string>
+    <string name="menu_cart_string">Items In Cart</string>
+    <string name="menu_location_string">Locations</string>
+    <string name="drawer_menu_string">Menu</string>
+    <string name="menu_rewards_string">Rewards</string>
+    <string name="menu_review_string">reviews</string>
+    <string name="title_activity_web">WebActivity</string>
+
+</resources>

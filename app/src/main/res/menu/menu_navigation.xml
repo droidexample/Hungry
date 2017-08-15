@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/user_home"
+            android:icon="@drawable/ic_home_icon"
+            android:title="@string/menu_home_string" />
+        <item
+            android:id="@+id/user_login_register"
+            android:icon="@drawable/ic_login_register"
+            android:title="@string/menu_login_string" />
+        <item
+            android:id="@+id/user_shopping_card"
+            android:icon="@drawable/ic_shopping_card"
+            app:actionViewClass="android.widget.TextView"
+            android:title="@string/menu_cart_string" />
+        <item
+            android:id="@+id/location"
+            android:icon="@drawable/ic_location"
+            android:title="@string/menu_location_string" />
+        <item
+            android:id="@+id/user_menu"
+            android:icon="@drawable/ic_menu"
+            android:title="@string/drawer_menu_string" />
+        <item
+            android:id="@+id/user_rewards"
+            android:icon="@drawable/ic_rewards"
+            android:title="@string/menu_rewards_string" />
+        <item
+            android:id="@+id/user_review"
+            android:icon="@drawable/ic_reviews"
+            android:title="@string/menu_review_string" />
+
+    </group>
+
+</menu>
