@@ -1,4 +1,4 @@
-package com.example.rshc4u.appv3.data_model;
+package com.example.rshc4u.appv3.data_model.nav_content;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -28,6 +28,8 @@ public class MenuInfo {
     @SerializedName("home_link_icon")
     @Expose
     private String home_link_icon;
+
+
 
 
     public String getBackground_color() {

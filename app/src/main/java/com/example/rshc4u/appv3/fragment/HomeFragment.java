@@ -19,7 +19,10 @@ import com.example.rshc4u.appv3.R;
 import com.example.rshc4u.appv3.activities.ScannerActivity;
 import com.example.rshc4u.appv3.api.AppClient;
 import com.example.rshc4u.appv3.api.ApplicationConfig;
-import com.example.rshc4u.appv3.data_model.DataModel;
+import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
+import com.example.rshc4u.appv3.data_model.nav_content.MenuContent;
+import com.example.rshc4u.appv3.data_model.nav_content.MenuInfo;
+import com.example.rshc4u.appv3.data_model.nav_content.MenuItems;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
@@ -95,9 +98,9 @@ public class HomeFragment extends Fragment implements URLParams {
 
                     // startActivity(new Intent(mContext, WebActivity.class));
                     //  setWebFragment(new WebFragment());
-
-                    getData();
-
+                    Toast.makeText(mContext, "cds" , Toast.LENGTH_LONG).show();
+                    //getData();
+                    getMenuContent();
 
                 } else {
                     Toast.makeText(mContext, "Internet Connect Error !",
@@ -126,16 +129,16 @@ public class HomeFragment extends Fragment implements URLParams {
         final ApplicationConfig apiReader = AppClient.getApiService();
 
 
-        Call<ArrayList<DataModel>> list = apiReader.getHomeData();
+        Call<ArrayList<HomeContent>> list = apiReader.getHomeData();
 
-        list.enqueue(new Callback<ArrayList<DataModel>>() {
+        list.enqueue(new Callback<ArrayList<HomeContent>>() {
             @Override
-            public void onResponse(Call<ArrayList<DataModel>> call, Response<ArrayList<DataModel>> response) {
+            public void onResponse(Call<ArrayList<HomeContent>> call, Response<ArrayList<HomeContent>> response) {
 
                 if (response.isSuccessful()) {
 
 
-                    ArrayList<DataModel> model = response.body();
+                    ArrayList<HomeContent> model = response.body();
 
                     Toast.makeText(mContext, model.get(0).getPullup().get(0).getText(), Toast.LENGTH_LONG).show();
 
@@ -147,7 +150,7 @@ public class HomeFragment extends Fragment implements URLParams {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<DataModel>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<HomeContent>> call, Throwable t) {
 
             }
         });
@@ -155,5 +158,40 @@ public class HomeFragment extends Fragment implements URLParams {
 
     }
 
+
+    private void getMenuContent() {
+
+        final ApplicationConfig apiReader = AppClient.getApiService();
+
+
+        Call<ArrayList<MenuContent>> list = apiReader.getMenuContent();
+
+        list.enqueue(new Callback<ArrayList<MenuContent>>() {
+            @Override
+            public void onResponse(Call<ArrayList<MenuContent>> call, Response<ArrayList<MenuContent>> response) {
+
+                if (response.isSuccessful()) {
+
+
+                    ArrayList<MenuContent> model = response.body();
+
+                    Toast.makeText(mContext, "cds" +model.get(0).getMenuInfo().getText_color(), Toast.LENGTH_LONG).show();
+
+                    Log.e("test1", model.get(0).getMenuInfo().getBackground_color());
+
+                } else {
+                    Toast.makeText(mContext, "cds" , Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<MenuContent>> call, Throwable t) {
+
+            }
+        });
+
+
+    }
 
 }

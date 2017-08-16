@@ -1,4 +1,4 @@
-package com.example.rshc4u.appv3.data_model;
+package com.example.rshc4u.appv3.data_model.nav_content;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -21,9 +21,7 @@ public class MenuItems {
     @Expose
     private String url;
 
-    @SerializedName("notice")
-    @Expose
-    private String notice;
+
 
     public String getTitle() {
         return title;
@@ -49,11 +47,5 @@ public class MenuItems {
         this.url = url;
     }
 
-    public String getNotice() {
-        return notice;
-    }
 
-    public void setNotice(String notice) {
-        this.notice = notice;
-    }
 }

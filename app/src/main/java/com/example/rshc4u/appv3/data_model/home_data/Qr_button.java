@@ -1,4 +1,4 @@
-package com.example.rshc4u.appv3.data_model;
+package com.example.rshc4u.appv3.data_model.home_data;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -1,6 +1,7 @@
 package com.example.rshc4u.appv3.api;
 
-import com.example.rshc4u.appv3.data_model.DataModel;
+import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
+import com.example.rshc4u.appv3.data_model.nav_content.MenuContent;
 
 import java.util.ArrayList;
 
@@ -16,8 +17,12 @@ public interface ApplicationConfig {
 
     @Headers("Accept: application/json")
     @GET("mobileFetch-app_layout/devid-")
+    Call<ArrayList<HomeContent>> getHomeData();
 
-    Call<ArrayList<DataModel>> getHomeData();
+
+    @Headers("Accept: application/json")
+    @GET("mobileFetch-app_menu")
+    Call<ArrayList<MenuContent>> getMenuContent();
 
 
 }
