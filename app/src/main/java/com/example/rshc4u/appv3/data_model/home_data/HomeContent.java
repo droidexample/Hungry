@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by linux64 on 10/26/16.
  */
 
-public class DataModel {
+public class HomeContent {
 
     @SerializedName("hide_statusbar")
     @Expose
