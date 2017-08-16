@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import com.example.rshc4u.appv3.data_model.DataModel;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -123,19 +126,20 @@ public class HomeFragment extends Fragment implements URLParams {
         final ApplicationConfig apiReader = AppClient.getApiService();
 
 
-        Call<DataModel> list = apiReader.getHomeData();
+        Call<ArrayList<DataModel>> list = apiReader.getHomeData();
 
-        list.enqueue(new Callback<DataModel>() {
+        list.enqueue(new Callback<ArrayList<DataModel>>() {
             @Override
-            public void onResponse(Call<DataModel> call, Response<DataModel> response) {
+            public void onResponse(Call<ArrayList<DataModel>> call, Response<ArrayList<DataModel>> response) {
 
                 if (response.isSuccessful()) {
 
 
-                    DataModel model = response.body();
+                    ArrayList<DataModel> model = response.body();
 
-                    Toast.makeText(mContext, model.getPullup().get(0).getText(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, model.get(0).getPullup().get(0).getText(), Toast.LENGTH_LONG).show();
 
+                    Log.e("test", model.get(0).getGo_button().getUrl());
 
                 } else {
 
@@ -143,7 +147,7 @@ public class HomeFragment extends Fragment implements URLParams {
             }
 
             @Override
-            public void onFailure(Call<DataModel> call, Throwable t) {
+            public void onFailure(Call<ArrayList<DataModel>> call, Throwable t) {
 
             }
         });

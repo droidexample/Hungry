@@ -6,7 +6,7 @@ package com.example.rshc4u.appv3.utils;
 
 public interface URLParams {
 
-    String BASE_API = "";
+    String BASE_API = "https://rrordering.247chow.com/demo/u-embed/";
 
     String go_url = "https://rrordering.247chow.com/demo/u-menu/view-mobile/app_use-true/";
     String login_register_url = "https://rrordering.247chow.com/demo/u-login/view-mobile/app_use-true/";
