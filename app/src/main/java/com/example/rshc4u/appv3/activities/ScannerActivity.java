@@ -85,6 +85,8 @@ public class ScannerActivity extends AppCompatActivity {
 
                      Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
 
+                    Log.e("URL",result.getContents());
+
 
                     if (!result.getContents().isEmpty()) {
 

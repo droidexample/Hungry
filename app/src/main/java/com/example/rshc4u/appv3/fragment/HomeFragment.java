@@ -16,9 +16,16 @@ import android.widget.Toast;
 
 import com.example.rshc4u.appv3.R;
 import com.example.rshc4u.appv3.activities.ScannerActivity;
+import com.example.rshc4u.appv3.api.AppClient;
+import com.example.rshc4u.appv3.api.ApplicationConfig;
+import com.example.rshc4u.appv3.data_model.DataModel;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rshc4u on 8/13/17.
@@ -84,7 +91,10 @@ public class HomeFragment extends Fragment implements URLParams {
                     Constants.DIRECTION_URL = go_url;
 
                     // startActivity(new Intent(mContext, WebActivity.class));
-                    setWebFragment(new WebFragment());
+                    //  setWebFragment(new WebFragment());
+
+                    getData();
+
 
                 } else {
                     Toast.makeText(mContext, "Internet Connect Error !",
@@ -107,5 +117,39 @@ public class HomeFragment extends Fragment implements URLParams {
         fragmentTransactionHome.commit();
 
     }
+
+    private void getData() {
+
+        final ApplicationConfig apiReader = AppClient.getApiService();
+
+
+        Call<DataModel> list = apiReader.getHomeData();
+
+        list.enqueue(new Callback<DataModel>() {
+            @Override
+            public void onResponse(Call<DataModel> call, Response<DataModel> response) {
+
+                if (response.isSuccessful()) {
+
+
+                    DataModel model = response.body();
+
+                    Toast.makeText(mContext, model.getPullup().get(0).getText(), Toast.LENGTH_LONG).show();
+
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DataModel> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
 
 }
