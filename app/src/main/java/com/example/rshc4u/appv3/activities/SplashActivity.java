@@ -1,4 +1,4 @@
-package com.example.rshc4u.appv3;
+package com.example.rshc4u.appv3.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

@@ -17,5 +17,6 @@
     <string name="menu_rewards_string">Rewards</string>
     <string name="menu_review_string">reviews</string>
     <string name="title_activity_web">WebActivity</string>
+    <string name="title_activity_scanner">ScannerActivity</string>
 
 </resources>

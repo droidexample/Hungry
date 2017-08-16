@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".WebActivity">
+    tools:context=".activities.ScannerActivity"
+    tools:showIn="@layout/activity_web">
 
 
     <WebView
-        android:id="@+id/open_url_webview"
+        android:id="@+id/scan_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </WebView>
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/scan_progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

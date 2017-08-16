@@ -1,15 +1,17 @@
-package com.example.rshc4u.appv3;
+package com.example.rshc4u.appv3.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.example.rshc4u.appv3.R;
 import com.example.rshc4u.appv3.utils.Constants;
 
 public class WebActivity extends AppCompatActivity {
@@ -25,7 +27,7 @@ public class WebActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        setContentView(R.layout.activity_web);
+        setContentView(R.layout.content_web);
 
 
         openUrlWeb = (WebView) findViewById(R.id.open_url_webview);
@@ -34,12 +36,14 @@ public class WebActivity extends AppCompatActivity {
 
         WebSettings webSettings = openUrlWeb.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setAppCacheEnabled(true);
+        CookieManager.getInstance().setAcceptCookie(true);
 
-        if (!Constants.url.isEmpty()) {
+        webSettings.setAppCacheEnabled(false);
+
+        if (!Constants.DIRECTION_URL.isEmpty()) {
 
 
-            openUrlWeb.loadUrl(Constants.url);
+            openUrlWeb.loadUrl(Constants.DIRECTION_URL);
 
             openUrlWeb.setWebViewClient(new WebViewClient() {
 

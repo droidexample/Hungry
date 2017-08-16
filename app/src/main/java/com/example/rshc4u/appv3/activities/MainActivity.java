@@ -1,6 +1,5 @@
-package com.example.rshc4u.appv3;
+package com.example.rshc4u.appv3.activities;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,24 +12,25 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rshc4u.appv3.R;
 import com.example.rshc4u.appv3.fragment.HomeFragment;
 import com.example.rshc4u.appv3.fragment.Login_fragment;
 import com.example.rshc4u.appv3.fragment.MenuFragment;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
+import com.example.rshc4u.appv3.utils.URLParams;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements URLParams {
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-    public static int lp = 0;
 
+    private boolean currentState = false;
     NavigationView navigationView;
 
 
@@ -78,9 +78,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (id) {
                     case R.id.user_home:
 
-                        setHomePage();
-
-
                         mDrawerHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -94,11 +91,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.user_login_register:
 
+                        currentState = false;
 
                         if (InternetChecker.isNetworkAvailable(getApplicationContext())) {
 
 
-                            Constants.url = "https://rrordering.247chow.com/demo/u-login/view-mobile/app_use-true/";
+                            Constants.DIRECTION_URL = login_register_url;
                             mDrawerHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -115,10 +113,31 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.user_shopping_card:
-
+                        currentState = false;
                         if (InternetChecker.isNetworkAvailable(getApplicationContext())) {
 
-                            Constants.url = "https://rrordering.247chow.com/demo/u-cart/view-mobile/app_use-true/";
+
+                            Constants.DIRECTION_URL = card_shopping_url;
+                            mDrawerHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fragmentSetForHome(new Login_fragment());
+                                }
+                            }, 240);
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Internet Connect Error !",
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                        drawerLayout.closeDrawers();
+                        break;
+
+                    case R.id.user_menu:
+                        currentState = false;
+                        if (InternetChecker.isNetworkAvailable(getApplicationContext())) {
+
+                            Constants.DIRECTION_URL = menu_url;
 
                             mDrawerHandler.postDelayed(new Runnable() {
                                 @Override
@@ -128,20 +147,28 @@ public class MainActivity extends AppCompatActivity {
                             }, 240);
 
 
-
                         } else {
                             Toast.makeText(getApplicationContext(), "Internet Connect Error !",
                                     Toast.LENGTH_LONG).show();
                         }
 
+
                         drawerLayout.closeDrawers();
                         break;
-                    case R.id.location:
 
+
+                    case R.id.location:
+                        currentState = false;
                         if (InternetChecker.isNetworkAvailable(getApplicationContext())) {
 
-                            Constants.url = "https://rrordering.247chow.com/demo/u-locations/view-mobile/app_use-true/";
-                            startActivity(new Intent(MainActivity.this, WebActivity.class));
+
+                            Constants.DIRECTION_URL = location_url;
+                            mDrawerHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fragmentSetForHome(new Login_fragment());
+                                }
+                            }, 240);
 
                         } else {
                             Toast.makeText(getApplicationContext(), "Internet Connect Error !",
@@ -151,46 +178,43 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.user_review:
-
+                        currentState = false;
                         if (InternetChecker.isNetworkAvailable(getApplicationContext())) {
 
-                            Constants.url = "https://rrordering.247chow.com/demo/u-reviews/view-mobile/app_use-true/";
-                            startActivity(new Intent(MainActivity.this, WebActivity.class));
+
+                            Constants.DIRECTION_URL = reviews_url;
+                            mDrawerHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fragmentSetForHome(new Login_fragment());
+                                }
+                            }, 240);
 
                         } else {
                             Toast.makeText(getApplicationContext(), "Internet Connect Error !",
                                     Toast.LENGTH_LONG).show();
                         }
+
 
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.user_rewards:
-
+                        currentState = false;
                         if (InternetChecker.isNetworkAvailable(getApplicationContext())) {
 
-                            Constants.url = "https://rrordering.247chow.com/demo/u-rewards/view-mobile/";
-                            startActivity(new Intent(MainActivity.this, WebActivity.class));
+
+                            Constants.DIRECTION_URL = reward_url;
+                            mDrawerHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fragmentSetForHome(new Login_fragment());
+                                }
+                            }, 240);
 
                         } else {
                             Toast.makeText(getApplicationContext(), "Internet Connect Error !",
                                     Toast.LENGTH_LONG).show();
                         }
-
-
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.user_menu:
-
-                        if (InternetChecker.isNetworkAvailable(getApplicationContext())) {
-
-                            Constants.url = "https://rrordering.247chow.com/demo/u-menu/view-mobile/app_use-true/";
-
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Internet Connect Error !",
-                                    Toast.LENGTH_LONG).show();
-                        }
-
 
                         drawerLayout.closeDrawers();
                         break;
@@ -235,22 +259,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void addMenuItemInNavMenuDrawer() {
-        NavigationView navView = (NavigationView) findViewById(R.id.navigation_view);
-
-        Menu menu = navView.getMenu();
-        Menu submenu = menu.addSubMenu("New Super SubMenu");
-
-        submenu.add("Super Item1");
-
-
-        submenu.add("Super Item2");
-        submenu.add("Super Item3");
-
-        navView.invalidate();
-    }
-
     private void setHomePage() {
+        currentState = true;
         final Handler mDrawerHandler = new Handler();
 
 
@@ -261,5 +271,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 240);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (currentState == true) {
+            super.onBackPressed();
+        } else {
+            setHomePage();
+        }
     }
 }

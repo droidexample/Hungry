@@ -12,14 +12,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.R;
+import com.example.rshc4u.appv3.utils.Constants;
 
 /**
- * Created by rshc4u on 8/15/17.
+ * Created by rshc4u on 8/16/17.
  */
 
-public class Login_fragment extends Fragment {
+public class RewardsFragment extends Fragment {
+
 
     private WebView openUrlWeb;
 

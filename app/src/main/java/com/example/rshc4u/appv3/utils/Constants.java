@@ -6,5 +6,9 @@ package com.example.rshc4u.appv3.utils;
 
 public class Constants {
 
-    public static String url="";
+    public static String DIRECTION_URL = "";
+
+
+
+
 }
