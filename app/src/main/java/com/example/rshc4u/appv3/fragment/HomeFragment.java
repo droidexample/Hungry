@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,14 +41,15 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements URLParams {
 
-    private LinearLayout btnGo, btnScan;
+    private LinearLayout btnGo, btn_qr_scanner;
     private Button btnOrder;
     private ProgressBar progressBar;
 
     private Context mContext;
-    private String goUrl, button_order_url;
+    private String go_button_url, order_button_url;
 
-    private TextView welcomeText;
+    private TextView welcomeText, txtScanner;
+    private ImageView ivScanerIcon;
     private CoordinatorLayout main_layout;
 
     @Nullable
@@ -63,7 +65,7 @@ public class HomeFragment extends Fragment implements URLParams {
         getData();
 
 
-        btnScan.setOnClickListener(new View.OnClickListener() {
+        btn_qr_scanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -78,11 +80,14 @@ public class HomeFragment extends Fragment implements URLParams {
             public void onClick(View view) {
                 if (InternetChecker.isNetworkAvailable(getActivity())) {
 
-                    Constants.DIRECTION_URL = order_url;
 
-                    //startActivity(new Intent(mContext, WebActivity.class));
+                    if (!order_button_url.isEmpty()) {
 
+                        Constants.DIRECTION_URL = order_button_url;
 
+                    } else {
+                        Constants.DIRECTION_URL = order_url;
+                    }
                     setWebFragment(new WebFragment());
 
                 } else {
@@ -100,9 +105,9 @@ public class HomeFragment extends Fragment implements URLParams {
                 if (InternetChecker.isNetworkAvailable(getActivity())) {
 
 
-                    if (!goUrl.isEmpty()) {
+                    if (!go_button_url.isEmpty()) {
 
-                        Constants.DIRECTION_URL = goUrl;
+                        Constants.DIRECTION_URL = go_button_url;
 
                     } else {
                         Constants.DIRECTION_URL = go_url;
@@ -131,11 +136,13 @@ public class HomeFragment extends Fragment implements URLParams {
     private void initAll(View view) {
 
         btnGo = (LinearLayout) view.findViewById(R.id.layoutGo);
-        btnScan = (LinearLayout) view.findViewById(R.id.layoutScan);
+        btn_qr_scanner = (LinearLayout) view.findViewById(R.id.layoutScan);
         btnOrder = (Button) view.findViewById(R.id.btnOrder);
         progressBar = (ProgressBar) view.findViewById(R.id.homeProgress);
         main_layout = (CoordinatorLayout) view.findViewById(R.id.layout_home);
         welcomeText = (TextView) view.findViewById(R.id.tvWelcome);
+        txtScanner = (TextView) view.findViewById(R.id.txtScan);
+        ivScanerIcon = (ImageView) view.findViewById(R.id.scanIcon);
 
 
     }
@@ -169,13 +176,20 @@ public class HomeFragment extends Fragment implements URLParams {
 
                     for (int i = 0; i < model.size(); i++) {
 
-                        goUrl = model.get(i).getGo_button().getUrl();
+                        go_button_url = model.get(i).getGo_button().getUrl();
 
                         welcomeText.setText(model.get(i).getWelcome_text());
 
                         Log.e("test", model.get(i).getGo_button().getUrl());
 
-                        main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
+
+                        try {
+
+                            main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
+
+                        } catch (Exception e) {
+
+                        }
 
                         btnOrder.setText(model.get(i).getBottom_bar_text());
 
@@ -195,7 +209,9 @@ public class HomeFragment extends Fragment implements URLParams {
 
                         }
 
-                        button_order_url = model.get(i).getBottom_bar_url();
+                        order_button_url = model.get(i).getBottom_bar_url();
+
+                        txtScanner.setText(model.get(i).getQr_button().getText());
 
                     }
 
