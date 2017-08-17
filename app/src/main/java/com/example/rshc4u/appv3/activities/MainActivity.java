@@ -1,5 +1,6 @@
 package com.example.rshc4u.appv3.activities;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,13 +28,14 @@ import com.example.rshc4u.appv3.utils.URLParams;
 
 
 public class MainActivity extends AppCompatActivity implements URLParams {
+
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
 
     private boolean currentState = false;
     NavigationView navigationView;
 
-
+    private ActionBarDrawerToggle actionBarDrawerToggle;
     String TAG = "webview";
 
     @Override
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements URLParams {
 
 
         setSupportActionBar(toolbar);
+
+        toolbar.setBackgroundColor(Color.parseColor("#ffffff"));
 
         toolbar.setLogo(R.drawable.ic_logo);
 
@@ -57,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements URLParams {
         slideshow.setTypeface(null, Typeface.BOLD);
 
 
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+        actionBarDrawerToggle.setHomeAsUpIndicator(R.mipmap.ic_launcher);
+
+
         /**
          *  set home fragment
          */
@@ -67,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements URLParams {
     public void initNavigationDrawer() {
 
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -233,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements URLParams {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
 
             @Override
             public void onDrawerClosed(View v) {
@@ -246,6 +256,8 @@ public class MainActivity extends AppCompatActivity implements URLParams {
             }
         };
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+
         actionBarDrawerToggle.syncState();
     }
 

@@ -34,15 +34,17 @@
             android:textSize="15sp" />
 
         <ProgressBar
+            android:id="@+id/homeProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
         <TextView
+            android:id="@+id/tvWelcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Brenton testing the short for the landing page of the mobile version"
+            android:text=""
             android:textColor="#9400d3"
             android:textSize="20sp" />
 
