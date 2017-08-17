@@ -28,6 +28,7 @@ import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -41,15 +42,15 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements URLParams {
 
-    private LinearLayout btnGo, btn_qr_scanner;
+    private LinearLayout layout_btnGo, layout_qr_scanner;
     private Button btnOrder;
     private ProgressBar progressBar;
 
     private Context mContext;
     private String go_button_url, order_button_url;
 
-    private TextView welcomeText, txtScanner;
-    private ImageView ivScanerIcon;
+    private TextView welcomeText, txtScanner, txtGo;
+    private ImageView ivScanerIcon, ivGo, ivLogo;
     private CoordinatorLayout main_layout;
 
     @Nullable
@@ -65,7 +66,7 @@ public class HomeFragment extends Fragment implements URLParams {
         getData();
 
 
-        btn_qr_scanner.setOnClickListener(new View.OnClickListener() {
+        layout_qr_scanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -98,7 +99,7 @@ public class HomeFragment extends Fragment implements URLParams {
         });
 
 
-        btnGo.setOnClickListener(new View.OnClickListener() {
+        layout_btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -135,14 +136,17 @@ public class HomeFragment extends Fragment implements URLParams {
 
     private void initAll(View view) {
 
-        btnGo = (LinearLayout) view.findViewById(R.id.layoutGo);
-        btn_qr_scanner = (LinearLayout) view.findViewById(R.id.layoutScan);
+        layout_btnGo = (LinearLayout) view.findViewById(R.id.layoutGo);
+        layout_qr_scanner = (LinearLayout) view.findViewById(R.id.layoutScan);
         btnOrder = (Button) view.findViewById(R.id.btnOrder);
         progressBar = (ProgressBar) view.findViewById(R.id.homeProgress);
         main_layout = (CoordinatorLayout) view.findViewById(R.id.layout_home);
         welcomeText = (TextView) view.findViewById(R.id.tvWelcome);
         txtScanner = (TextView) view.findViewById(R.id.txtScan);
+        txtGo = (TextView) view.findViewById(R.id.txtGo);
         ivScanerIcon = (ImageView) view.findViewById(R.id.scanIcon);
+        ivGo = (ImageView) view.findViewById(R.id.ivBtngo);
+        ivLogo = (ImageView) view.findViewById(R.id.iv_logo);
 
 
     }
@@ -176,12 +180,14 @@ public class HomeFragment extends Fragment implements URLParams {
 
                     for (int i = 0; i < model.size(); i++) {
 
-                        go_button_url = model.get(i).getGo_button().getUrl();
 
                         welcomeText.setText(model.get(i).getWelcome_text());
 
                         Log.e("test", model.get(i).getGo_button().getUrl());
 
+                        Picasso.with(mContext).load(model.get(i).getLogo()).
+                                placeholder(R.drawable.logo_icon).error(
+                                R.drawable.logo_icon).into(ivLogo);
 
                         try {
 
@@ -211,7 +217,60 @@ public class HomeFragment extends Fragment implements URLParams {
 
                         order_button_url = model.get(i).getBottom_bar_url();
 
+
+                        /**
+                         *  scan button press data
+                         */
+
+
+                        try {
+                            layout_qr_scanner.setBackgroundColor(Color.parseColor(model.get(i).getQr_button().getBackground()));
+
+                            txtScanner.setTextColor(Color.parseColor(model.get(i).getQr_button().getColor()));
+
+
+                        } catch (Exception e) {
+
+                            layout_qr_scanner.setBackgroundColor(Color.parseColor("#" + model.get(i).getBottom_bar_bg()));
+
+
+                            txtScanner.setTextColor(Color.parseColor("#" + model.get(i).getQr_button().getColor()));
+
+                        }
+
+                        Picasso.with(mContext).load(model.get(i).getQr_button().getIcon()).
+                                placeholder(R.drawable.ic_scan).error(
+                                R.drawable.ic_scan).into(ivScanerIcon);
+
                         txtScanner.setText(model.get(i).getQr_button().getText());
+
+
+                        /**
+                         *  go button press data
+                         */
+
+                        go_button_url = model.get(i).getGo_button().getUrl();
+
+                        txtGo.setText(model.get(i).getGo_button().getText());
+
+                        Picasso.with(mContext).load(model.get(i).getGo_button().getIcon()).
+                                placeholder(R.drawable.ic_go).error(
+                                R.drawable.ic_go).into(ivGo);
+
+                        try {
+
+                            layout_btnGo.setBackgroundColor(Color.parseColor(model.get(i).getGo_button().getBackground()));
+
+                            txtGo.setTextColor(Color.parseColor(model.get(i).getGo_button().getColor()));
+
+
+                        } catch (Exception e) {
+
+                            layout_btnGo.setBackgroundColor(Color.parseColor("#" + model.get(i).getGo_button().getBackground()));
+
+                            txtGo.setTextColor(Color.parseColor("#" + model.get(i).getGo_button().getColor()));
+
+                        }
 
                     }
 

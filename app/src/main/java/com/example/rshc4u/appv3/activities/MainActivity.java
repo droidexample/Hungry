@@ -1,15 +1,10 @@
 package com.example.rshc4u.appv3.activities;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
@@ -17,35 +12,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rshc4u.appv3.R;
-import com.example.rshc4u.appv3.api.AppClient;
-import com.example.rshc4u.appv3.api.ApplicationConfig;
-import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
 import com.example.rshc4u.appv3.fragment.HomeFragment;
 import com.example.rshc4u.appv3.fragment.Login_fragment;
 import com.example.rshc4u.appv3.fragment.MenuFragment;
-import com.example.rshc4u.appv3.fragment.WebFragment;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
-
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements URLParams {
@@ -83,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements URLParams {
 
 
         actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
-        actionBarDrawerToggle.setHomeAsUpIndicator(R.mipmap.ic_launcher);
+        actionBarDrawerToggle.setHomeAsUpIndicator(R.drawable.menu);
 
 
         /**
@@ -315,9 +294,6 @@ public class MainActivity extends AppCompatActivity implements URLParams {
             setHomePage();
         }
     }
-
-
-
 
 
 }
