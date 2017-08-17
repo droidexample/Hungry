@@ -1,10 +1,6 @@
 package com.example.rshc4u.appv3.data_model.nav_content;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by rshc4u on 8/16/17.
@@ -13,13 +9,10 @@ import java.util.HashMap;
 public class MenuContent {
 
 
-    @SerializedName("menuInfo")
-    @Expose
     private MenuInfo menuInfo;
 
-    @SerializedName("menuItems")
-    @Expose
-    private ArrayList<MenuItems> menuItems;
+
+    private MenuItems[] menuItems;
 
     public MenuInfo getMenuInfo() {
         return menuInfo;
@@ -29,11 +22,11 @@ public class MenuContent {
         this.menuInfo = menuInfo;
     }
 
-    public ArrayList<MenuItems> getMenuItems() {
+    public MenuItems[] getMenuItems() {
         return menuItems;
     }
 
-    public void setMenuItems(ArrayList<MenuItems> menuItems) {
+    public void setMenuItems(MenuItems[] menuItems) {
         this.menuItems = menuItems;
     }
 }

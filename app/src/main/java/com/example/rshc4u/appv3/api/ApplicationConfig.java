@@ -25,4 +25,5 @@ public interface ApplicationConfig {
     Call<ArrayList<MenuContent>> getMenuContent();
 
 
+
 }

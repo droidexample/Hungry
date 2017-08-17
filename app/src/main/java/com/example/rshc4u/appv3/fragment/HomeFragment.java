@@ -21,8 +21,6 @@ import com.example.rshc4u.appv3.api.AppClient;
 import com.example.rshc4u.appv3.api.ApplicationConfig;
 import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
 import com.example.rshc4u.appv3.data_model.nav_content.MenuContent;
-import com.example.rshc4u.appv3.data_model.nav_content.MenuInfo;
-import com.example.rshc4u.appv3.data_model.nav_content.MenuItems;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
@@ -98,9 +96,10 @@ public class HomeFragment extends Fragment implements URLParams {
 
                     // startActivity(new Intent(mContext, WebActivity.class));
                     //  setWebFragment(new WebFragment());
-                    Toast.makeText(mContext, "cds" , Toast.LENGTH_LONG).show();
+                    // Toast.makeText(mContext, "cds" , Toast.LENGTH_LONG).show();
                     //getData();
                     getMenuContent();
+
 
                 } else {
                     Toast.makeText(mContext, "Internet Connect Error !",
@@ -175,12 +174,12 @@ public class HomeFragment extends Fragment implements URLParams {
 
                     ArrayList<MenuContent> model = response.body();
 
-                    Toast.makeText(mContext, "cds" +model.get(0).getMenuInfo().getText_color(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "cds" + model.get(0).getMenuItems()[0].getTitle(), Toast.LENGTH_LONG).show();
 
                     Log.e("test1", model.get(0).getMenuInfo().getBackground_color());
 
                 } else {
-                    Toast.makeText(mContext, "cds" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "faield", Toast.LENGTH_LONG).show();
 
                 }
             }
