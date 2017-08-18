@@ -1,9 +1,12 @@
 package com.example.rshc4u.appv3.activities;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,6 +36,7 @@ import com.example.rshc4u.appv3.fragment.Login_fragment;
 import com.example.rshc4u.appv3.fragment.MenuFragment;
 import com.example.rshc4u.appv3.fragment.ReviewFragment;
 import com.example.rshc4u.appv3.fragment.WebFragment;
+import com.example.rshc4u.appv3.utils.BadgeDrawerArrowDrawable;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.URLParams;
 import com.squareup.picasso.Picasso;
@@ -58,7 +62,13 @@ public class MainContainerActivity extends AppCompatActivity
     private String pull_url;
     private Context mContext;
     private boolean currentStatus = false;
+    private String badgeCounter = "2";
 
+
+    private ActionBarDrawerToggle toggle;
+    private BadgeDrawerArrowDrawable badgeDrawable;
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +129,7 @@ public class MainContainerActivity extends AppCompatActivity
         });
 
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
 
             @Override
             public void onDrawerClosed(View v) {
@@ -136,6 +146,12 @@ public class MainContainerActivity extends AppCompatActivity
                 super.onDrawerOpened(v);
             }
         };
+
+        badgeDrawable = new BadgeDrawerArrowDrawable(getSupportActionBar().getThemedContext());
+
+        toggle.setDrawerArrowDrawable(badgeDrawable);
+
+        badgeDrawable.setText(badgeCounter);
 
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -275,6 +291,7 @@ public class MainContainerActivity extends AppCompatActivity
     }
 
 
+
     private void getMainLogo() {
 
         final ApplicationConfig apiReader = AppClient.getApiService();
@@ -282,6 +299,7 @@ public class MainContainerActivity extends AppCompatActivity
         Call<ArrayList<HomeContent>> list = apiReader.getHomeData();
 
         list.enqueue(new Callback<ArrayList<HomeContent>>() {
+            @TargetApi(Build.VERSION_CODES.KITKAT)
             @Override
             public void onResponse(Call<ArrayList<HomeContent>> call, Response<ArrayList<HomeContent>> response) {
 
@@ -294,6 +312,9 @@ public class MainContainerActivity extends AppCompatActivity
                         Picasso.with(mContext).load(model.get(i).getLogo()).
                                 placeholder(R.drawable.logo_icon).error(
                                 R.drawable.logo_icon).into(menuLeft);
+
+                        badgeCounter = model.get(i).getCart_total();
+                        badgeDrawable.setText(badgeCounter);
 
                     }
 

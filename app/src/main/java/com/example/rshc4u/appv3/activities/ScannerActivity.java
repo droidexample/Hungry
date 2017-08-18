@@ -68,7 +68,7 @@ public class ScannerActivity extends AppCompatActivity {
         if (result != null) {
             //if qrcode has nothing in it
             if (result.getContents() == null) {
-                Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
+                // Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
 
                 startActivity(new Intent(ScannerActivity.this, MainContainerActivity.class));
 
