@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment implements URLParams {
     private String go_button_url, order_button_url;
 
     private TextView welcomeText, txtScanner, txtGo;
-    private ImageView ivScanerIcon, ivGo, ivLogo;
+    private ImageView ivScanerIcon, ivGo, ivLogo,ivMenuLogo;
     private CoordinatorLayout main_layout;
 
     @Nullable
@@ -147,6 +147,7 @@ public class HomeFragment extends Fragment implements URLParams {
         ivScanerIcon = (ImageView) view.findViewById(R.id.scanIcon);
         ivGo = (ImageView) view.findViewById(R.id.ivBtngo);
         ivLogo = (ImageView) view.findViewById(R.id.iv_logo);
+        ivMenuLogo = (ImageView) view.findViewById(R.id.menuLeft);
 
 
     }
@@ -176,7 +177,6 @@ public class HomeFragment extends Fragment implements URLParams {
 
                     ArrayList<HomeContent> model = response.body();
 
-                    // Toast.makeText(mContext, model.get(0).getPullup().get(0).getText(), Toast.LENGTH_LONG).show();
 
                     for (int i = 0; i < model.size(); i++) {
 
@@ -188,6 +188,8 @@ public class HomeFragment extends Fragment implements URLParams {
                         Picasso.with(mContext).load(model.get(i).getLogo()).
                                 placeholder(R.drawable.logo_icon).error(
                                 R.drawable.logo_icon).into(ivLogo);
+
+
 
                         Constants.cart_count = model.get(i).getCart_total();
                         Constants.cart_url= model.get(i).getCart_url();
