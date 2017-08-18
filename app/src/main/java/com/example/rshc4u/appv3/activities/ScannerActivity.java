@@ -70,7 +70,7 @@ public class ScannerActivity extends AppCompatActivity {
             if (result.getContents() == null) {
                 Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
 
-                startActivity(new Intent(ScannerActivity.this, MainActivity.class));
+                startActivity(new Intent(ScannerActivity.this, MainContainerActivity.class));
 
             } else {
                 //if qr contains data
@@ -83,9 +83,9 @@ public class ScannerActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
 
-                     Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
 
-                    Log.e("URL",result.getContents());
+                    Log.e("URL", result.getContents());
 
 
                     if (!result.getContents().isEmpty()) {
