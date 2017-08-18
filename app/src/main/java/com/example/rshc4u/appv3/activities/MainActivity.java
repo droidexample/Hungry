@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +20,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rshc4u.appv3.R;
+import com.example.rshc4u.appv3.api.AppClient;
+import com.example.rshc4u.appv3.api.ApplicationConfig;
+import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
 import com.example.rshc4u.appv3.fragment.HomeFragment;
 import com.example.rshc4u.appv3.fragment.Login_fragment;
 import com.example.rshc4u.appv3.fragment.MenuFragment;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements URLParams {
@@ -34,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements URLParams {
 
     private boolean currentState = false;
     NavigationView navigationView;
-
+    TextView slideshow;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     String TAG = "webview";
 
@@ -44,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements URLParams {
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-
         setSupportActionBar(toolbar);
 
         toolbar.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -53,12 +63,9 @@ public class MainActivity extends AppCompatActivity implements URLParams {
 
         initNavigationDrawer();
 
-        TextView slideshow = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+        slideshow = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.user_shopping_card));
 
-        slideshow.setText("0");
-        slideshow.setGravity(Gravity.CENTER_VERTICAL);
-        slideshow.setTypeface(null, Typeface.BOLD);
 
 
         actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
@@ -70,9 +77,19 @@ public class MainActivity extends AppCompatActivity implements URLParams {
          */
         setHomePage();
 
+        slideshow.setText(Constants.cart_count);
+        slideshow.setGravity(Gravity.CENTER);
+
+        slideshow.setWidth(100);
+        slideshow.setBackgroundColor(Color.RED);
+        slideshow.setTextColor(Color.WHITE);
+        slideshow.setTypeface(null, Typeface.BOLD);
+
+
     }
 
     public void initNavigationDrawer() {
+
 
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
@@ -127,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements URLParams {
                         if (InternetChecker.isNetworkAvailable(getApplicationContext())) {
 
 
-                            Constants.DIRECTION_URL = card_shopping_url;
+                            Constants.DIRECTION_URL = Constants.cart_url;
                             mDrawerHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -247,18 +264,22 @@ public class MainActivity extends AppCompatActivity implements URLParams {
 
             @Override
             public void onDrawerClosed(View v) {
+                supportInvalidateOptionsMenu();
                 super.onDrawerClosed(v);
             }
 
             @Override
             public void onDrawerOpened(View v) {
+                supportInvalidateOptionsMenu();
                 super.onDrawerOpened(v);
             }
         };
+
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
 
         actionBarDrawerToggle.syncState();
+
     }
 
     private void fragmentSetForHome(android.support.v4.app.Fragment fragment) {
