@@ -30,9 +30,12 @@ import com.example.rshc4u.appv3.utils.URLParams;
 public class MainContainerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, URLParams {
 
-    DrawerLayout drawer;
-    ImageView menuLeft;
-    ImageView menuRight;
+    private DrawerLayout drawer;
+    private ImageView menuLeft;
+    private ImageView menuRight;
+
+    private NavigationView navigationViewRight;
+    private NavigationView navigationViewLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,36 +45,41 @@ public class MainContainerActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-
-
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         menuLeft = (ImageView) findViewById(R.id.menuLeft);
         menuRight = (ImageView) findViewById(R.id.menuRight);
 
+        navigationViewLeft = (NavigationView) findViewById(R.id.nav_view_left);
+        navigationViewRight = (NavigationView) findViewById(R.id.nav_view_right);
+
+
+        /*
         menuLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.closeDrawer(GravityCompat.START);
-                    //menuRight.setImageDrawable(getResources().getDrawable(R.drawable.ic_go));
+
                 } else {
                     drawer.openDrawer(GravityCompat.START);
-                    //menuRight.setImageDrawable(getResources().getDrawable(R.drawable.icd_menu));
+
                 }
             }
         });
+
+        */
+
 
         menuRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (drawer.isDrawerOpen(GravityCompat.END)) {
                     drawer.closeDrawer(GravityCompat.END);
-                    //menuLeft.setImageDrawable(getResources().getDrawable(R.drawable.icd_menu));
+
                 } else {
                     drawer.openDrawer(GravityCompat.END);
 
 
-                    //  menuLeft.setImageDrawable(getResources().getDrawable(R.drawable.ic_go));
                 }
             }
         });
@@ -98,14 +106,12 @@ public class MainContainerActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView1 = (NavigationView) findViewById(R.id.nav_view_left);
-        NavigationView navigationView2 = (NavigationView) findViewById(R.id.nav_view_right);
 
-        navigationView1.setNavigationItemSelectedListener(this);
-        navigationView2.setNavigationItemSelectedListener(this);
+        navigationViewLeft.setNavigationItemSelectedListener(this);
+        navigationViewRight.setNavigationItemSelectedListener(this);
 
 
-        View header = navigationView2.getHeaderView(0);
+        View header = navigationViewRight.getHeaderView(0);
         TextView pull_title = (TextView) header.findViewById(R.id.pull_title);
         TextView pull_details = (TextView) header.findViewById(R.id.pull_details);
 
@@ -129,7 +135,9 @@ public class MainContainerActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // Handle navigation view item clicks here.
+
         int id = item.getItemId();
         String text = "";
         if (id == R.id.user_home) {
