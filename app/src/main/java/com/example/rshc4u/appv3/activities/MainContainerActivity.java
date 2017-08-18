@@ -3,15 +3,19 @@ package com.example.rshc4u.appv3.activities;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.rshc4u.appv3.R;
 import com.example.rshc4u.appv3.fragment.HomeFragment;
@@ -26,25 +30,33 @@ import com.example.rshc4u.appv3.utils.URLParams;
 public class MainContainerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, URLParams {
 
+    DrawerLayout drawer;
+    ImageView menuLeft;
+    ImageView menuRight;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_container_acitivty);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ImageButton menuLeft = (ImageButton) findViewById(R.id.menuLeft);
-        ImageButton menuRight = (ImageButton) findViewById(R.id.menuRight);
+
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        menuLeft = (ImageView) findViewById(R.id.menuLeft);
+        menuRight = (ImageView) findViewById(R.id.menuRight);
 
         menuLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.closeDrawer(GravityCompat.START);
+                    //menuRight.setImageDrawable(getResources().getDrawable(R.drawable.ic_go));
                 } else {
                     drawer.openDrawer(GravityCompat.START);
+                    //menuRight.setImageDrawable(getResources().getDrawable(R.drawable.icd_menu));
                 }
             }
         });
@@ -54,20 +66,48 @@ public class MainContainerActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (drawer.isDrawerOpen(GravityCompat.END)) {
                     drawer.closeDrawer(GravityCompat.END);
+                    //menuLeft.setImageDrawable(getResources().getDrawable(R.drawable.icd_menu));
                 } else {
                     drawer.openDrawer(GravityCompat.END);
+
+
+                    //  menuLeft.setImageDrawable(getResources().getDrawable(R.drawable.ic_go));
                 }
             }
         });
-        /*ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
+
+            @Override
+            public void onDrawerClosed(View v) {
+
+                menuRight.setImageDrawable(getResources().getDrawable(R.drawable.ic_open_in_new_black_24dp));
+
+                super.onDrawerClosed(v);
+            }
+
+            @Override
+            public void onDrawerOpened(View v) {
+
+                menuRight.setImageDrawable(getResources().getDrawable(R.drawable.ic_dehaze_black_24dp));
+                super.onDrawerOpened(v);
+            }
+        };
+
         drawer.setDrawerListener(toggle);
-        toggle.syncState();*/
+        toggle.syncState();
 
         NavigationView navigationView1 = (NavigationView) findViewById(R.id.nav_view_left);
         NavigationView navigationView2 = (NavigationView) findViewById(R.id.nav_view_right);
+
         navigationView1.setNavigationItemSelectedListener(this);
         navigationView2.setNavigationItemSelectedListener(this);
+
+
+        View header = navigationView2.getHeaderView(0);
+        TextView pull_title = (TextView) header.findViewById(R.id.pull_title);
+        TextView pull_details = (TextView) header.findViewById(R.id.pull_details);
 
 
         setHomePage();
@@ -135,16 +175,14 @@ public class MainContainerActivity extends AppCompatActivity
 
         }
 
-        Toast.makeText(this, "You have chosen " + text, Toast.LENGTH_LONG).show();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         drawer.closeDrawer(GravityCompat.END);
         return true;
     }
 
 
-    private void fragmentSetForHome(android.support.v4.app.Fragment fragment) {
+    private void fragmentSetForHome(Fragment fragment) {
 
         FragmentManager fragmentManagerHome = getSupportFragmentManager();
         FragmentTransaction fragmentTransactionHome = fragmentManagerHome.beginTransaction();

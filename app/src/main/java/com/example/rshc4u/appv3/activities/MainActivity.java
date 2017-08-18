@@ -67,9 +67,8 @@ public class MainActivity extends AppCompatActivity implements URLParams {
                 findItem(R.id.user_shopping_card));
 
 
-
         actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
-        actionBarDrawerToggle.setHomeAsUpIndicator(R.drawable.menu);
+        actionBarDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_dmenu);
 
 
         /**
