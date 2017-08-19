@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -19,8 +18,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/logo_icon" />
+            android:layout_marginTop="10dp" />
 
         <Button
             android:id="@+id/btnOrder"
@@ -28,10 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="#ff0000"
-            android:text="Start Order"
+            android:background="@color/White"
             android:textAllCaps="false"
-            android:textColor="#008000"
             android:textSize="15sp" />
 
         <ProgressBar
@@ -67,16 +63,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:background="#cccccc"
             android:gravity="center"
             android:padding="12dp">
 
             <ImageView
                 android:id="@+id/scanIcon"
                 android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_scan"
-                android:tint="#0000FF" />
+                android:layout_height="20dp" />
 
 
             <TextView
@@ -85,10 +78,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:background="#cccccc"
                 android:gravity="center"
-                android:text=" Scan"
-                android:textColor="#008000" />
+
+                />
 
         </LinearLayout>
 
@@ -98,16 +90,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_weight="2"
-            android:background="#333333"
             android:gravity="center"
             android:padding="12dp">
 
             <ImageView
                 android:id="@+id/ivBtngo"
                 android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_go"
-                android:tint="#0000FF" />
+                android:layout_height="20dp" />
 
             <TextView
                 android:id="@+id/txtGo"
@@ -115,9 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:text="Go >"
-                android:textAllCaps="false"
-                android:textColor="#ffffff" />
+                android:textAllCaps="false" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

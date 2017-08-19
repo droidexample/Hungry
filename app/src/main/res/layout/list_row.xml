@@ -19,9 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
-        android:layout_toLeftOf="@+id/navCounter"
         android:layout_toRightOf="@+id/navIcon"
-        android:layout_toStartOf="@+id/navCounter"
         android:text="Medium Text"
         android:textColor="#ffffff"
         android:textSize="15dp" />

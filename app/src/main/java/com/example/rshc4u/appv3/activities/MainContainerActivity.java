@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -70,8 +71,8 @@ public class MainContainerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, URLParams, CommonWebViewFragment.ReloadJsonCallback {
 
     private DrawerLayout drawer;
-    private ImageView menuLeft;
-    private ImageView menuRight, imgPull;
+    private ImageView logoIcon;
+    private ImageView imvPullButton, imgPull;
 
     private NavigationView navigationViewRight;
     private NavigationView navigationViewLeft;
@@ -81,7 +82,7 @@ public class MainContainerActivity extends AppCompatActivity
     private String pull_url;
     private Context mContext;
 
-    private String badgeCounter = "2";
+    private String badgeCounter = "11";
 
     private ActionBarDrawerToggle toggle;
     private BadgeDrawerArrowDrawable badgeDrawable;
@@ -102,8 +103,8 @@ public class MainContainerActivity extends AppCompatActivity
 
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        menuLeft = (ImageView) findViewById(R.id.menuLeft);
-        menuRight = (ImageView) findViewById(R.id.menuRight);
+        logoIcon = (ImageView) findViewById(R.id.menuLeft);
+        imvPullButton = (ImageView) findViewById(R.id.menuRight);
 
         navigationViewLeft = (NavigationView) findViewById(R.id.nav_view_left);
         navigationViewRight = (NavigationView) findViewById(R.id.nav_view_right);
@@ -135,16 +136,13 @@ public class MainContainerActivity extends AppCompatActivity
          */
 
 
-        // getMainLogo();
-
-
-        menuRight.setOnClickListener(new View.OnClickListener() {
+        imvPullButton.setOnClickListener(new View.OnClickListener() {
 
 
             @Override
             public void onClick(View v) {
 
-                getData();
+                getPullData();
 
                 if (drawer.isDrawerOpen(GravityCompat.END)) {
                     drawer.closeDrawer(GravityCompat.END);
@@ -163,7 +161,7 @@ public class MainContainerActivity extends AppCompatActivity
             @Override
             public void onDrawerClosed(View v) {
 
-                menuRight.setImageDrawable(getResources().getDrawable(R.drawable.ic_open_in_new_black_24dp));
+                imvPullButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_open_in_new_black_24dp));
 
                 super.onDrawerClosed(v);
             }
@@ -171,7 +169,7 @@ public class MainContainerActivity extends AppCompatActivity
             @Override
             public void onDrawerOpened(View v) {
 
-                menuRight.setImageDrawable(getResources().getDrawable(R.drawable.ic_dehaze_black_24dp));
+                imvPullButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_dehaze_black_24dp));
                 super.onDrawerOpened(v);
             }
         };
@@ -207,6 +205,7 @@ public class MainContainerActivity extends AppCompatActivity
                 } else {
                     Constants.DIRECTION_URL = pull_url;
                 }
+
                 fragmentSetForHome(new WebFragment());
 
                 drawer.closeDrawer(GravityCompat.END);
@@ -264,47 +263,7 @@ public class MainContainerActivity extends AppCompatActivity
     }
 
 
-    private void getMainLogo() {
-
-        final ApplicationConfig apiReader = AppClient.getApiService();
-
-        Call<ArrayList<HomeContent>> list = apiReader.getHomeData();
-
-        list.enqueue(new Callback<ArrayList<HomeContent>>() {
-            @TargetApi(Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onResponse(Call<ArrayList<HomeContent>> call, Response<ArrayList<HomeContent>> response) {
-
-                if (response.isSuccessful()) {
-
-                    ArrayList<HomeContent> model = response.body();
-
-                    for (int i = 0; i < model.size(); i++) {
-
-                        Picasso.with(mContext).load(model.get(i).getLogo()).
-                                placeholder(R.drawable.logo_icon).error(
-                                R.drawable.logo_icon).into(menuLeft);
-
-                        badgeCounter = model.get(i).getCart_total();
-                        badgeDrawable.setText(badgeCounter);
-
-                    }
-
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<HomeContent>> call, Throwable t) {
-
-            }
-        });
-
-    }
-
-
-    private void getData() {
+    private void getPullData() {
 
         final ApplicationConfig apiReader = AppClient.getApiService();
 
@@ -324,10 +283,12 @@ public class MainContainerActivity extends AppCompatActivity
                     for (int i = 0; i < model.size(); i++) {
 
 
+                        /*
                         Picasso.with(mContext).load(model.get(i).getLogo()).
                                 placeholder(R.drawable.logo_icon).error(
                                 R.drawable.logo_icon).into(menuLeft);
 
+                        */
 
                         pullTitle.setText(model.get(i).getPullup().get(0).getTitle());
                         pullDetails.setText(model.get(i).getPullup().get(0).getText());
@@ -388,7 +349,7 @@ public class MainContainerActivity extends AppCompatActivity
 
                     */
 
-                    setHomePage();
+                    //setHomePage();
                 }
 
             }
@@ -434,7 +395,8 @@ public class MainContainerActivity extends AppCompatActivity
 
 
     public class JSONParse extends AsyncTask<String, String, JSONArray> {
-        public static final String SERVER_URL = "https://foodbiz365.com/order/whistlepig/app_use-android/u-embed/mobileFetch-app_layout";
+        //        public static final String SERVER_URL = "https://foodbiz365.com/order/whistlepig/app_use-android/u-embed/mobileFetch-app_layout";
+        public static final String SERVER_URL = "https://rrordering.247chow.com/demo/u-embed/mobileFetch-app_layout";
         private static final String TAG = "MenuFetcher";
         FrontPageJson[] jsonMenu;
         private ProgressDialog pDialog;
@@ -463,7 +425,8 @@ public class MainContainerActivity extends AppCompatActivity
             ;
             // Getting JSON from URL
 
-            JSONArray json = jParser.getJSONFromUrl("https://foodbiz365.com/order/whistlepig/u-embed/mobileFetch-app_menu", MainContainerActivity.this);
+//            JSONArray json = jParser.getJSONFromUrl("https://foodbiz365.com/order/whistlepig/u-embed/mobileFetch-app_menu", MainContainerActivity.this);
+            JSONArray json = jParser.getJSONFromUrl("https://rrordering.247chow.com/demo/u-embed/mobileFetch-app_menu", MainContainerActivity.this);
 
             try {
                 Log.v("JSON", json.toString());
@@ -532,14 +495,18 @@ public class MainContainerActivity extends AppCompatActivity
             return json1;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected void onPostExecute(final JSONArray json) {
             /*pDialog.dismiss();*/
             MenuAdapter adapter = new MenuAdapter(MainContainerActivity.this, json, attrs);
             menuList.setAdapter(adapter);
 
+            badgeDrawable.setText(menuCount);
+
+
 /*
-            tv.setText(menuCount);
+
             pTitle.setText(p.getTitle().toString());
             tvContent.setText(p.getText().toString());
 */
@@ -557,7 +524,7 @@ public class MainContainerActivity extends AppCompatActivity
             try {
                 Picasso.with(MainContainerActivity.this)
                         .load(jsonMenu[0].getLogo().toString())
-                        .into(menuLeft);
+                        .into(logoIcon);
             } catch (Exception e) {
                 e.printStackTrace();
             }
