@@ -1,7 +1,6 @@
 package com.example.rshc4u.appv3.api;
 
 import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
-import com.example.rshc4u.appv3.data_model.nav_content.MenuItems;
 
 import java.util.ArrayList;
 
@@ -20,9 +19,6 @@ public interface ApplicationConfig {
     Call<ArrayList<HomeContent>> getHomeData();
 
 
-    @Headers("Accept: application/json")
-    @GET("mobileFetch-app_menu")
-    Call<ArrayList<ArrayList<MenuItems>>> getMenuContent();
 
 
 }

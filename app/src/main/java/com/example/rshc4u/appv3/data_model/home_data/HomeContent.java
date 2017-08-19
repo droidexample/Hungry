@@ -123,7 +123,7 @@ public class HomeContent {
 
     @SerializedName("pullup")
     @Expose
-    private ArrayList<Pullup> pullup;
+    private ArrayList<PullupContent> pullup;
 
 
     public String getHide_statusbar() {
@@ -334,11 +334,11 @@ public class HomeContent {
         this.qr_button = qr_button;
     }
 
-    public ArrayList<Pullup> getPullup() {
+    public ArrayList<PullupContent> getPullup() {
         return pullup;
     }
 
-    public void setPullup(ArrayList<Pullup> pullup) {
+    public void setPullup(ArrayList<PullupContent> pullup) {
         this.pullup = pullup;
     }
 }

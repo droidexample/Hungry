@@ -1,10 +1,8 @@
 package com.example.rshc4u.appv3.fragment;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -27,7 +25,6 @@ import com.example.rshc4u.appv3.activities.ScannerActivity;
 import com.example.rshc4u.appv3.api.AppClient;
 import com.example.rshc4u.appv3.api.ApplicationConfig;
 import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
-import com.example.rshc4u.appv3.data_model.nav_content.MenuItems;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
@@ -107,9 +104,6 @@ public class HomeFragment extends Fragment implements URLParams {
             public void onClick(View view) {
 
 
-                getMenuItem();
-
-              /*
                 if (InternetChecker.isNetworkAvailable(getActivity())) {
 
 
@@ -133,7 +127,6 @@ public class HomeFragment extends Fragment implements URLParams {
                             Toast.LENGTH_LONG).show();
                 }
 
-                */
 
             }
         });
@@ -303,40 +296,5 @@ public class HomeFragment extends Fragment implements URLParams {
 
     }
 
-
-    private void getMenuItem() {
-        Log.e("menu", "call method");
-
-        final ApplicationConfig apiReader = AppClient.getApiService();
-
-        Call<ArrayList<ArrayList<MenuItems>>> list = apiReader.getMenuContent();
-
-        list.enqueue(new Callback<ArrayList<ArrayList<MenuItems>>>() {
-            @TargetApi(Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onResponse(Call<ArrayList<ArrayList<MenuItems>>> call, Response<ArrayList<ArrayList<MenuItems>>> response) {
-
-                if (response.isSuccessful()) {
-
-                    ArrayList<ArrayList<MenuItems>> model = response.body();
-
-                    for (int i = 0; i < model.size(); i++) {
-
-                        Toast.makeText(mContext, model.get(i).get(i).getTitle(), Toast.LENGTH_LONG).show();
-                        Log.e("menu", model.get(i).get(i).getTitle());
-                    }
-
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<ArrayList<MenuItems>>> call, Throwable t) {
-
-            }
-        });
-
-    }
 
 }
