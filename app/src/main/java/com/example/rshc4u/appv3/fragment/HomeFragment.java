@@ -191,9 +191,6 @@ public class HomeFragment extends Fragment implements URLParams {
                                 R.drawable.logo_icon).into(ivLogo);
 
 
-                        Constants.cart_count = model.get(i).getCart_total();
-                        Constants.cart_url = model.get(i).getCart_url();
-
                         try {
 
                             main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));

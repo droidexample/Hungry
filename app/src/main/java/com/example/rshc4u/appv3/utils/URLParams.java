@@ -21,4 +21,8 @@ public interface URLParams {
     String order_url = "https://rrordering.247chow.com/demo/u-menu/view-mobile/app_use-true/";
 
 
+    String Layout_API = "https://rrordering.247chow.com/demo/u-embed/mobileFetch-app_layout";
+    String Menu_API = "https://rrordering.247chow.com/demo/u-embed/mobileFetch-app_menu";
+
+
 }

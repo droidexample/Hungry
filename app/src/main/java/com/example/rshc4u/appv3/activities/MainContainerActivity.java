@@ -25,9 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebViewFragment;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -72,7 +70,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainContainerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, URLParams, CommonWebViewFragment.ReloadJsonCallback {
+        implements URLParams, CommonWebViewFragment.ReloadJsonCallback {
 
     private DrawerLayout drawer;
     private ImageView logoIcon;
@@ -86,7 +84,7 @@ public class MainContainerActivity extends AppCompatActivity
     private String pull_url;
     private Context mContext;
 
-    private String badgeCounter = "11";
+    private String badgeCounter = "2";
 
     private ActionBarDrawerToggle toggle;
     private BadgeDrawerArrowDrawable badgeDrawable;
@@ -96,6 +94,7 @@ public class MainContainerActivity extends AppCompatActivity
 
     private Toolbar toolbar;
 
+    private boolean currentHomeStatus = false;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -184,10 +183,6 @@ public class MainContainerActivity extends AppCompatActivity
         toggle.syncState();
 
 
-        navigationViewLeft.setNavigationItemSelectedListener(this);
-        navigationViewRight.setNavigationItemSelectedListener(this);
-
-
         View header = navigationViewRight.getHeaderView(0);
         pullTitle = (TextView) header.findViewById(R.id.pull_title);
         pullDetails = (TextView) header.findViewById(R.id.pull_details);
@@ -208,6 +203,9 @@ public class MainContainerActivity extends AppCompatActivity
                     setHomePage();
 
                 } else if (getSupportFragmentManager().findFragmentByTag("123") == null) {
+
+                    currentHomeStatus = false;
+
                     Fragment f = CommonWebViewFragment.newInstance(preferences.getString("url_" + i, "123"));
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -233,7 +231,9 @@ public class MainContainerActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                if (pull_url.isEmpty()) {
+                currentHomeStatus = false;
+
+                if (pull_url.isEmpty() || pull_url == null) {
                     pull_url = menu_url;
                 } else {
                     Constants.DIRECTION_URL = pull_url;
@@ -252,51 +252,6 @@ public class MainContainerActivity extends AppCompatActivity
          */
 
         setHomePage();
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
-            drawer.closeDrawer(GravityCompat.END);
-        }
-    }
-
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-
-        drawer.closeDrawer(GravityCompat.START);
-        drawer.closeDrawer(GravityCompat.END);
-        return true;
-    }
-
-
-    private void fragmentSetForHome(Fragment fragment) {
-
-        FragmentManager fragmentManagerHome = getSupportFragmentManager();
-        FragmentTransaction fragmentTransactionHome = fragmentManagerHome.beginTransaction();
-        fragmentTransactionHome.replace(R.id.content_frame, fragment);
-        fragmentTransactionHome.commit();
-
-    }
-
-
-    private void setHomePage() {
-
-        final Handler mDrawerHandler = new Handler();
-
-        mDrawerHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                fragmentSetForHome(new HomeFragment());
-            }
-        }, 240);
-
     }
 
 
@@ -319,13 +274,6 @@ public class MainContainerActivity extends AppCompatActivity
 
                     for (int i = 0; i < model.size(); i++) {
 
-
-                        /*
-                        Picasso.with(mContext).load(model.get(i).getLogo()).
-                                placeholder(R.drawable.logo_icon).error(
-                                R.drawable.logo_icon).into(menuLeft);
-
-                        */
 
                         pullTitle.setText(model.get(i).getPullup().get(0).getTitle());
                         pullDetails.setText(model.get(i).getPullup().get(0).getText());
@@ -357,6 +305,47 @@ public class MainContainerActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onBackPressed() {
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        } else if (currentHomeStatus) {
+            exitByBackKey();
+        } else {
+            exitByBackKey();
+        }
+    }
+
+
+    private void fragmentSetForHome(Fragment fragment) {
+
+        FragmentManager fragmentManagerHome = getSupportFragmentManager();
+        FragmentTransaction fragmentTransactionHome = fragmentManagerHome.beginTransaction();
+        fragmentTransactionHome.replace(R.id.content_frame, fragment);
+        fragmentTransactionHome.commit();
+
+    }
+
+
+    private void setHomePage() {
+
+        currentHomeStatus = true;
+
+        final Handler mDrawerHandler = new Handler();
+
+        mDrawerHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fragmentSetForHome(new HomeFragment());
+            }
+        }, 240);
+
+    }
+
+
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             exitByBackKey();
@@ -368,7 +357,7 @@ public class MainContainerActivity extends AppCompatActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-            if (getSupportFragmentManager().findFragmentByTag("FrontPage") != null) {
+            if (currentHomeStatus) {
                 exitByBackKey();
             } else if (CommonWebViewFragment.isLoading == false) {
 
@@ -377,16 +366,8 @@ public class MainContainerActivity extends AppCompatActivity
                     CommonWebViewFragment.webView.goBack();
 
                 } else if (!CommonWebViewFragment.webView.canGoBack()) {
-                    /*
-                    Fragment f = new FrontPageFragment();
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.content, f, "FrontPage");
-                    fragmentTransaction.commit();
 
-                    */
-
-                    //setHomePage();
+                    setHomePage();
                 }
 
             }
@@ -432,8 +413,8 @@ public class MainContainerActivity extends AppCompatActivity
 
 
     public class JSONParse extends AsyncTask<String, String, JSONArray> {
-        //        public static final String SERVER_URL = "https://foodbiz365.com/order/whistlepig/app_use-android/u-embed/mobileFetch-app_layout";
-        public static final String SERVER_URL = "https://rrordering.247chow.com/demo/u-embed/mobileFetch-app_layout";
+
+        public static final String SERVER_URL = Layout_API;
         private static final String TAG = "MenuFetcher";
         FrontPageJson[] jsonMenu;
         private ProgressDialog pDialog;
@@ -462,8 +443,8 @@ public class MainContainerActivity extends AppCompatActivity
             ;
             // Getting JSON from URL
 
-//            JSONArray json = jParser.getJSONFromUrl("https://foodbiz365.com/order/whistlepig/u-embed/mobileFetch-app_menu", MainContainerActivity.this);
-            JSONArray json = jParser.getJSONFromUrl("https://rrordering.247chow.com/demo/u-embed/mobileFetch-app_menu", MainContainerActivity.this);
+
+            JSONArray json = jParser.getJSONFromUrl(Menu_API, MainContainerActivity.this);
 
             try {
                 Log.v("JSON", json.toString());
