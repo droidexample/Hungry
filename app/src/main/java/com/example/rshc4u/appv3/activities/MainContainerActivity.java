@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -31,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rshc4u.appv3.R;
 import com.example.rshc4u.appv3.adapter.MenuAdapter;
@@ -42,8 +44,10 @@ import com.example.rshc4u.appv3.data_model.menu_content.Pullup;
 import com.example.rshc4u.appv3.fragment.CommonWebViewFragment;
 import com.example.rshc4u.appv3.fragment.HomeFragment;
 import com.example.rshc4u.appv3.fragment.WebFragment;
+import com.example.rshc4u.appv3.services.NotificationService;
 import com.example.rshc4u.appv3.utils.BadgeDrawerArrowDrawable;
 import com.example.rshc4u.appv3.utils.Constants;
+import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.JSONParser;
 import com.example.rshc4u.appv3.utils.URLParams;
 import com.google.gson.Gson;
@@ -93,7 +97,6 @@ public class MainContainerActivity extends AppCompatActivity
     private ListView menuList;
 
     private Toolbar toolbar;
-
     private boolean currentHomeStatus = false;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -115,8 +118,15 @@ public class MainContainerActivity extends AppCompatActivity
 
         mContext = getApplicationContext();
 
-        new JSONParse().execute();
 
+        if (InternetChecker.isNetworkAvailable(mContext)) {
+
+            new JSONParse().execute();
+
+        } else {
+            Toast.makeText(mContext, "Internet Connect Error !",
+                    Toast.LENGTH_LONG).show();
+        }
 
         /*
         menuLeft.setOnClickListener(new View.OnClickListener() {
@@ -231,7 +241,6 @@ public class MainContainerActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                currentHomeStatus = false;
 
                 if (pull_url.isEmpty() || pull_url == null) {
                     pull_url = menu_url;
@@ -239,7 +248,12 @@ public class MainContainerActivity extends AppCompatActivity
                     Constants.DIRECTION_URL = pull_url;
                 }
 
-                fragmentSetForHome(new WebFragment());
+                Fragment f = CommonWebViewFragment.newInstance(Constants.DIRECTION_URL);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, f, "123");
+                fragmentTransaction.commit();
+
 
                 drawer.closeDrawer(GravityCompat.END);
 
@@ -252,6 +266,10 @@ public class MainContainerActivity extends AppCompatActivity
          */
 
         setHomePage();
+
+
+        startService(new Intent(this.getApplicationContext(), NotificationService.class));
+
     }
 
 

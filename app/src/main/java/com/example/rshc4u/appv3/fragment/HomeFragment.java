@@ -63,7 +63,13 @@ public class HomeFragment extends Fragment implements URLParams {
 
         initAll(view);
 
-        getData();
+
+        if (InternetChecker.isNetworkAvailable(mContext)) {
+            getData();
+        } else {
+            Toast.makeText(mContext, "Internet Connect Error !",
+                    Toast.LENGTH_LONG).show();
+        }
 
 
         layout_qr_scanner.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +85,7 @@ public class HomeFragment extends Fragment implements URLParams {
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (InternetChecker.isNetworkAvailable(getActivity())) {
 
 
@@ -89,7 +96,15 @@ public class HomeFragment extends Fragment implements URLParams {
                     } else {
                         Constants.DIRECTION_URL = order_url;
                     }
-                    setWebFragment(new WebFragment());
+
+
+                    Fragment f = CommonWebViewFragment.newInstance(Constants.DIRECTION_URL);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, f, "123");
+                    fragmentTransaction.commit();
+
+                    // setWebFragment(new WebFragment());
 
                 } else {
                     Toast.makeText(mContext, "Internet Connect Error !",
@@ -116,10 +131,12 @@ public class HomeFragment extends Fragment implements URLParams {
 
                     }
 
-                    // startActivity(new Intent(mContext, WebActivity.class));
-                    setWebFragment(new WebFragment());
-                    // Toast.makeText(mContext, "cds" , Toast.LENGTH_LONG).show();
-                    //getData();
+                    // setWebFragment(new WebFragment());
+                    Fragment f = CommonWebViewFragment.newInstance(Constants.DIRECTION_URL);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, f, "123");
+                    fragmentTransaction.commit();
 
 
                 } else {

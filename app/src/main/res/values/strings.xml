@@ -19,4 +19,11 @@
     <string name="title_activity_web">WebActivity</string>
     <string name="title_activity_scanner">ScannerActivity</string>
 
+
+    <string name="WebserviceName">Service</string>
+    <string name="TimeIntervalInSeconds">10</string>
+    <string name="NoOfDaysAfterClearNotificaiton">30</string>
+    <string name="WebServiceDescription">Notification.</string>
+    <string name="NotificationURL">https://rrordering.247chow.com/demo/u-embed/appNotifyFetch-1/</string>
+
 </resources>

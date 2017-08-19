@@ -27,6 +27,8 @@ public class WebFragment extends Fragment {
 
     private String TAG = "webView";
 
+    public static boolean isLoading = true;
+
 
     @Nullable
     @Override
@@ -52,7 +54,6 @@ public class WebFragment extends Fragment {
             openUrlWeb.setWebViewClient(new WebViewClient() {
 
                 public void onPageFinished(WebView view, String url) {
-
 
 
                 }

@@ -12,10 +12,4 @@ public class Constants implements URLParams {
 
     public static String DIRECTION_URL = "";
 
-
-    public static ArrayList<HomeContent> homeContentArrayList = new ArrayList<>();
-
-    public static String cart_count = "0";
-    public static String cart_url = card_shopping_url;
-
 }
