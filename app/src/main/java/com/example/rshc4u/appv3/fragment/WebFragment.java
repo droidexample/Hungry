@@ -24,7 +24,6 @@ public class WebFragment extends Fragment {
 
     private WebView openUrlWeb;
 
-    private ProgressBar progressBar;
 
     private String TAG = "webView";
 
@@ -37,7 +36,6 @@ public class WebFragment extends Fragment {
 
 
         openUrlWeb = (WebView) view.findViewById(R.id.open_url_webview);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
 
         WebSettings webSettings = openUrlWeb.getSettings();
@@ -55,7 +53,7 @@ public class WebFragment extends Fragment {
 
                 public void onPageFinished(WebView view, String url) {
 
-                    progressBar.setVisibility(View.GONE);
+
 
                 }
             });

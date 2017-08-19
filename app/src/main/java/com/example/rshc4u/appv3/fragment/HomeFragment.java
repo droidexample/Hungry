@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment implements URLParams {
     private String go_button_url, order_button_url;
 
     private TextView welcomeText, txtScanner, txtGo;
-    private ImageView ivScanerIcon, ivGo, ivLogo, ivMenuLogo;
+    private ImageView ivScanerIcon, ivGo, ivLogo;
     private CoordinatorLayout main_layout;
 
     @Nullable
@@ -149,7 +149,6 @@ public class HomeFragment extends Fragment implements URLParams {
         ivScanerIcon = (ImageView) view.findViewById(R.id.scanIcon);
         ivGo = (ImageView) view.findViewById(R.id.ivBtngo);
         ivLogo = (ImageView) view.findViewById(R.id.iv_logo);
-        ivMenuLogo = (ImageView) view.findViewById(R.id.menuLeft);
 
 
     }
@@ -283,7 +282,7 @@ public class HomeFragment extends Fragment implements URLParams {
                     progressBar.setVisibility(View.GONE);
 
                 } else {
-
+                    Log.e("home", "Data loding failed");
                 }
             }
 

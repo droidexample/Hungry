@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -22,9 +23,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebViewFragment;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -131,10 +135,6 @@ public class MainContainerActivity extends AppCompatActivity
 
         */
 
-        /**
-         *   set main logo
-         */
-
 
         imvPullButton.setOnClickListener(new View.OnClickListener() {
 
@@ -195,10 +195,43 @@ public class MainContainerActivity extends AppCompatActivity
         navProgressBar = (ProgressBar) header.findViewById(R.id.navProgressBar);
 
 
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+
+        menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if (i == 0) {
+
+                    setHomePage();
+
+                } else if (getSupportFragmentManager().findFragmentByTag("123") == null) {
+                    Fragment f = CommonWebViewFragment.newInstance(preferences.getString("url_" + i, "123"));
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, f, "123");
+                    fragmentTransaction.commit();
+                } else {
+                    CommonWebViewFragment.webView.loadUrl(preferences.getString("url_" + i, "123"));
+                }
+
+                drawer.closeDrawer(Gravity.LEFT);
+                new JSONParse().execute();
+            }
+        });
+
+
+        /**
+         *
+         * go pull loading url
+         */
+
+
         pullDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 if (pull_url.isEmpty()) {
                     pull_url = menu_url;
@@ -213,6 +246,10 @@ public class MainContainerActivity extends AppCompatActivity
             }
         });
 
+
+        /**
+         *   set main pages
+         */
 
         setHomePage();
     }

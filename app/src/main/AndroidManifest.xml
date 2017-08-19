@@ -22,10 +22,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.WebActivity"
-            android:label="@string/title_activity_web"
-            android:theme="@style/MyTheme" />
-        <activity
             android:name=".activities.ScannerActivity"
             android:label="@string/title_activity_scanner"
             android:theme="@style/MyTheme" />
