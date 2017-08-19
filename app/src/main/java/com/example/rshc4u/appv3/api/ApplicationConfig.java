@@ -1,10 +1,9 @@
 package com.example.rshc4u.appv3.api;
 
 import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
-import com.example.rshc4u.appv3.data_model.nav_content.MenuInfo;
+import com.example.rshc4u.appv3.data_model.nav_content.MenuItems;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -23,7 +22,7 @@ public interface ApplicationConfig {
 
     @Headers("Accept: application/json")
     @GET("mobileFetch-app_menu")
-    Call<List<MenuInfo>> getMenuContent();
+    Call<ArrayList<ArrayList<MenuItems>>> getMenuContent();
 
 
 }
