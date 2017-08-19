@@ -43,7 +43,6 @@ import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
 import com.example.rshc4u.appv3.data_model.menu_content.Pullup;
 import com.example.rshc4u.appv3.fragment.CommonWebViewFragment;
 import com.example.rshc4u.appv3.fragment.HomeFragment;
-import com.example.rshc4u.appv3.fragment.WebFragment;
 import com.example.rshc4u.appv3.services.NotificationService;
 import com.example.rshc4u.appv3.utils.BadgeDrawerArrowDrawable;
 import com.example.rshc4u.appv3.utils.Constants;
@@ -325,15 +324,17 @@ public class MainContainerActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+       // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
-        } else if (currentHomeStatus) {
-            exitByBackKey();
         } else {
-            exitByBackKey();
+            if (currentHomeStatus) {
+                exitByBackKey();
+            } else {
+                exitByBackKey();
+            }
         }
     }
 
@@ -376,7 +377,18 @@ public class MainContainerActivity extends AppCompatActivity
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
             if (currentHomeStatus) {
-                exitByBackKey();
+              //
+
+               // setHomePage();
+
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+                    drawer.closeDrawer(GravityCompat.END);
+                }else {
+                    exitByBackKey();
+                }
+
             } else if (CommonWebViewFragment.isLoading == false) {
 
                 if (CommonWebViewFragment.webView.canGoBack()) {
@@ -398,6 +410,7 @@ public class MainContainerActivity extends AppCompatActivity
 
         return super.onKeyDown(keyCode, event);
     }
+
 
     protected void exitByBackKey() {
 
