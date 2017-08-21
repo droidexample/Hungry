@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +29,7 @@
         <activity
             android:name=".activities.MainContainerActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".services.NotificationService"
@@ -42,7 +43,6 @@
             </intent-filter>
         </service>
 
-
         <receiver
             android:name=".services.StartMyServiceAtBootReceiver"
             android:enabled="true"
@@ -55,6 +55,10 @@
                 <action android:name="android.net.ConnectivityManager.CONNECTIVITY_ACTION" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".activities.QRloadingActivity"
+            android:theme="@style/MyTheme"></activity>
     </application>
 
 </manifest>

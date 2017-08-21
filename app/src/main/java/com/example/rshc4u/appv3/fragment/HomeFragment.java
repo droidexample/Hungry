@@ -28,10 +28,12 @@ import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
+import com.google.zxing.Result;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,6 +79,7 @@ public class HomeFragment extends Fragment implements URLParams {
             public void onClick(View view) {
 
                 startActivity(new Intent(mContext, ScannerActivity.class));
+                // Start camera
 
             }
         });

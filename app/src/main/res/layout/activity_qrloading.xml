@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.ScannerActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <Button
-        android:id="@+id/button"
+
+    <WebView
+        android:id="@+id/open_url_webview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="QrScanner"
-        android:text="QRScanner" />
+        android:layout_height="match_parent">
+
+    </WebView>
 
 </RelativeLayout>
