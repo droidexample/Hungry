@@ -65,21 +65,6 @@ public class PullMenuAdapter extends RecyclerView.Adapter<PullMenuAdapter.PullHo
                 R.drawable.place_holder).into(holder.images);
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Fragment f = CommonWebViewFragment.newInstance(Constants.DIRECTION_URL);
-                FragmentManager fragmentManager = ((MainContainerActivity) mContext).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, f, "123");
-                fragmentTransaction.commit();
-
-
-            }
-        });
-
-
     }
 
     @Override

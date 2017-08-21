@@ -51,6 +51,7 @@ import com.example.rshc4u.appv3.services.NotificationService;
 import com.example.rshc4u.appv3.utils.BadgeDrawerArrowDrawable;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.JSONParser;
+import com.example.rshc4u.appv3.utils.RecyclerTouchListener;
 import com.example.rshc4u.appv3.utils.URLParams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -85,7 +86,7 @@ public class MainContainerActivity extends AppCompatActivity
     private NavigationView navigationViewRight;
     private NavigationView navigationViewLeft;
 
-    //private TextView pullTitle, pullDetails;
+
     private ProgressBar navProgressBar;
     private RecyclerView pull_recycler;
     // private String pull_url;
@@ -101,7 +102,7 @@ public class MainContainerActivity extends AppCompatActivity
 
     private Toolbar toolbar;
     private boolean currentHomeStatus = false;
-
+    ArrayList<PullupContent> pullupContentArrayList;
 
     private PullMenuAdapter pullMenuAdapter;
 
@@ -139,22 +140,6 @@ public class MainContainerActivity extends AppCompatActivity
             Toast.makeText(mContext, "Internet Connect Error !",
                     Toast.LENGTH_LONG).show();
         }
-
-        /*
-        menuLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-
-                }
-            }
-        });
-
-        */
 
 
         imvPullButton.setOnClickListener(new View.OnClickListener() {
@@ -244,40 +229,33 @@ public class MainContainerActivity extends AppCompatActivity
         });
 
 
-        /**
-         *
-         * go pull loading url
-         */
+        pull_recycler.addOnItemTouchListener(new RecyclerTouchListener(MainContainerActivity.this, pull_recycler,
+                new RecyclerTouchListener.ClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
 
 
-        /*
+                        currentHomeStatus = false;
 
-        pullDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                        String URL = pullupContentArrayList.get(position).getUrl();
 
-
-                if (pull_url.isEmpty() || pull_url == null) {
-                    pull_url = menu_url;
-                } else {
-                    Constants.DIRECTION_URL = pull_url;
-                }
-
-                Fragment f = CommonWebViewFragment.newInstance(Constants.DIRECTION_URL);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, f, "123");
-                fragmentTransaction.commit();
+                        Fragment f = CommonWebViewFragment.newInstance(URL);
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content_frame, f, "123");
+                        fragmentTransaction.commit();
 
 
-                drawer.closeDrawer(GravityCompat.END);
+                        drawer.closeDrawer(GravityCompat.END);
+                    }
 
-            }
-        });
+                    @Override
+                    public void onLongClick(View view, int position) {
+
+                    }
+                }));
 
 
-
-*/
         /**
          *   set main pages
          */
@@ -307,10 +285,10 @@ public class MainContainerActivity extends AppCompatActivity
                     ArrayList<HomeContent> model = response.body();
 
 
-                    ArrayList<PullupContent> contents = model.get(0).getPullup();
+                    pullupContentArrayList = model.get(0).getPullup();
 
 
-                    pullMenuAdapter = new PullMenuAdapter(getApplicationContext(), contents);
+                    pullMenuAdapter = new PullMenuAdapter(getApplicationContext(), pullupContentArrayList);
                     pull_recycler.setAdapter(pullMenuAdapter);
 
 
