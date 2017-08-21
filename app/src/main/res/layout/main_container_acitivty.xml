@@ -37,7 +37,24 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:fitsSystemWindows="true"
+        android:background="#706e6e6e"
+        android:fitsSystemWindows="true">
 
-        app:headerLayout="@layout/pull_header" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pull_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:scrollbars="vertical" />
+
+        <ProgressBar
+            android:id="@+id/navProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="15dp" />
+
+    </android.support.design.widget.NavigationView>
+    <!--app:headerLayout="@layout/pull_header" />-->
 </android.support.v4.widget.DrawerLayout>

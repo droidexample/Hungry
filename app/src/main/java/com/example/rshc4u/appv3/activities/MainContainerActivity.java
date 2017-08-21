@@ -22,6 +22,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -31,21 +34,21 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rshc4u.appv3.R;
 import com.example.rshc4u.appv3.adapter.MenuAdapter;
+import com.example.rshc4u.appv3.adapter.PullMenuAdapter;
 import com.example.rshc4u.appv3.api.AppClient;
 import com.example.rshc4u.appv3.api.ApplicationConfig;
 import com.example.rshc4u.appv3.data_model.home_data.FrontPageJson;
 import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
+import com.example.rshc4u.appv3.data_model.home_data.PullupContent;
 import com.example.rshc4u.appv3.data_model.menu_content.Pullup;
 import com.example.rshc4u.appv3.fragment.CommonWebViewFragment;
 import com.example.rshc4u.appv3.fragment.HomeFragment;
 import com.example.rshc4u.appv3.services.NotificationService;
 import com.example.rshc4u.appv3.utils.BadgeDrawerArrowDrawable;
-import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.JSONParser;
 import com.example.rshc4u.appv3.utils.URLParams;
@@ -82,21 +85,25 @@ public class MainContainerActivity extends AppCompatActivity
     private NavigationView navigationViewRight;
     private NavigationView navigationViewLeft;
 
-    private TextView pullTitle, pullDetails;
+    //private TextView pullTitle, pullDetails;
     private ProgressBar navProgressBar;
-    private String pull_url;
+    private RecyclerView pull_recycler;
+    // private String pull_url;
     private Context mContext;
 
-    private String badgeCounter = "2";
+    private String badgeCounter = "0";
 
     private ActionBarDrawerToggle toggle;
     private BadgeDrawerArrowDrawable badgeDrawable;
 
-
+    private LinearLayoutManager mLayoutManager;
     private ListView menuList;
 
     private Toolbar toolbar;
     private boolean currentHomeStatus = false;
+
+
+    private PullMenuAdapter pullMenuAdapter;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -115,7 +122,13 @@ public class MainContainerActivity extends AppCompatActivity
         navigationViewRight = (NavigationView) findViewById(R.id.nav_view_right);
         menuList = (ListView) findViewById(R.id.menuList);
 
+        pull_recycler = (RecyclerView) findViewById(R.id.pull_recycler_view);
+
         mContext = getApplicationContext();
+        navProgressBar = (ProgressBar) findViewById(R.id.navProgressBar);
+        mLayoutManager = new LinearLayoutManager(MainContainerActivity.this, LinearLayoutManager.VERTICAL, false);
+        pull_recycler.setLayoutManager(mLayoutManager);
+        pull_recycler.setItemAnimator(new DefaultItemAnimator());
 
 
         if (InternetChecker.isNetworkAvailable(mContext)) {
@@ -191,13 +204,14 @@ public class MainContainerActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        /*
 
         View header = navigationViewRight.getHeaderView(0);
         pullTitle = (TextView) header.findViewById(R.id.pull_title);
         pullDetails = (TextView) header.findViewById(R.id.pull_details);
         imgPull = (ImageView) header.findViewById(R.id.imgPull);
-        navProgressBar = (ProgressBar) header.findViewById(R.id.navProgressBar);
 
+*/
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
@@ -236,6 +250,8 @@ public class MainContainerActivity extends AppCompatActivity
          */
 
 
+        /*
+
         pullDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -260,6 +276,8 @@ public class MainContainerActivity extends AppCompatActivity
         });
 
 
+
+*/
         /**
          *   set main pages
          */
@@ -289,20 +307,12 @@ public class MainContainerActivity extends AppCompatActivity
                     ArrayList<HomeContent> model = response.body();
 
 
-                    for (int i = 0; i < model.size(); i++) {
+                    ArrayList<PullupContent> contents = model.get(0).getPullup();
 
 
-                        pullTitle.setText(model.get(i).getPullup().get(0).getTitle());
-                        pullDetails.setText(model.get(i).getPullup().get(0).getText());
-                        pull_url = model.get(i).getPullup().get(0).getUrl();
+                    pullMenuAdapter = new PullMenuAdapter(getApplicationContext(), contents);
+                    pull_recycler.setAdapter(pullMenuAdapter);
 
-
-                        Picasso.with(mContext).load(model.get(i).getPullup().get(0).getImg()).
-                                placeholder(R.drawable.ic_logo).error(
-                                R.drawable.ic_logo).into(imgPull);
-
-
-                    }
 
                     navProgressBar.setVisibility(View.GONE);
 
@@ -324,7 +334,7 @@ public class MainContainerActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-       // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (drawer.isDrawerOpen(GravityCompat.END)) {
@@ -377,15 +387,15 @@ public class MainContainerActivity extends AppCompatActivity
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
             if (currentHomeStatus) {
-              //
+                //
 
-               // setHomePage();
+                // setHomePage();
 
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.closeDrawer(GravityCompat.START);
                 } else if (drawer.isDrawerOpen(GravityCompat.END)) {
                     drawer.closeDrawer(GravityCompat.END);
-                }else {
+                } else {
                     exitByBackKey();
                 }
 
