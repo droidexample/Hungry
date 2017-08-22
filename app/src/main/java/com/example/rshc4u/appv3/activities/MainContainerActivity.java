@@ -284,7 +284,6 @@ public class MainContainerActivity extends AppCompatActivity
 
                     ArrayList<HomeContent> model = response.body();
 
-
                     pullupContentArrayList = model.get(0).getPullup();
 
 
@@ -321,7 +320,9 @@ public class MainContainerActivity extends AppCompatActivity
             if (currentHomeStatus) {
                 exitByBackKey();
             } else {
-                exitByBackKey();
+                //exitByBackKey();
+
+                super.onBackPressed();
             }
         }
     }

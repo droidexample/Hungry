@@ -32,7 +32,7 @@ public class MenuAdapter extends BaseAdapter {
     private Activity activity;
     private String[] data;
     JSONArray json;
-    private static LayoutInflater inflater=null;
+    private static LayoutInflater inflater = null;
     List<String> attrs = new ArrayList<String>();
 
 
@@ -40,9 +40,8 @@ public class MenuAdapter extends BaseAdapter {
         activity = a;
         this.attrs = attrs;
         this.json = json;
-        inflater = (LayoutInflater)activity.
+        inflater = (LayoutInflater) activity.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 
 
     }
@@ -50,16 +49,16 @@ public class MenuAdapter extends BaseAdapter {
     public MenuAdapter(Activity a) {
         activity = a;
 
-        inflater = (LayoutInflater)activity.
+        inflater = (LayoutInflater) activity.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
     public int getCount() {
-        if(json == null)
+        if (json == null)
             return 0;
         else
-        return json.length()+1;
+            return json.length() + 1;
     }
 
     public Object getItem(int position) {
@@ -71,7 +70,7 @@ public class MenuAdapter extends BaseAdapter {
     }
 
     /********* Create a holder Class to contain inflated xml file elements *********/
-    public static class ViewHolder{
+    public static class ViewHolder {
 
         public TextView title;
         public TextView counter;
@@ -82,64 +81,61 @@ public class MenuAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View vi=convertView;
+        View vi = convertView;
         ViewHolder holder;
 
-        if(convertView==null){
+        if (convertView == null) {
 
             vi = inflater.inflate(R.layout.list_row, null);
             holder = new ViewHolder();
             holder.title = (TextView) vi.findViewById(R.id.navTitle);
-            holder.counter=(TextView)vi.findViewById(R.id.navCounter);
-            holder.icon=(ImageView)vi.findViewById(R.id.navIcon);
-            vi.setTag( holder );
+            holder.counter = (TextView) vi.findViewById(R.id.navCounter);
+            holder.icon = (ImageView) vi.findViewById(R.id.navIcon);
+            vi.setTag(holder);
             holder.title.setTextColor(Color.parseColor(attrs.get(1)));
-        }
-        else
-            holder=(ViewHolder)vi.getTag();
+        } else
+            holder = (ViewHolder) vi.getTag();
 
-        String title="";
-        String imgUrl="";
+        String title = "";
+        String imgUrl = "";
         String notice;
-        String url="";
+        String url = "";
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         SharedPreferences.Editor editor = preferences.edit();
 
-        if(position==0){
+        if (position == 0) {
 
             title = attrs.get(2);
             imgUrl = attrs.get(3);
             Picasso.with(activity).load(imgUrl).into(holder.icon);
             holder.title.setText(title);
             holder.counter.setText("");
-        }else{
+        } else {
 
 
+            try {
 
-        try {
+                title = json.getJSONObject(position - 1).getString("title");
+                imgUrl = json.getJSONObject(position - 1).getString("icon");
+                url = json.getJSONObject(position - 1).getString("url");
+                notice = json.getJSONObject(position - 1).getString("notice");
+                holder.counter.setBackgroundResource(R.drawable.layout_bg);
+                holder.title.setText(title);
+                Picasso.with(activity).load(imgUrl).into(holder.icon);
+                holder.counter.setText(" " + notice + " ");
 
-            title  = json.getJSONObject(position-1).getString("title");
-            imgUrl  = json.getJSONObject(position-1).getString("icon");
-            url  = json.getJSONObject(position-1).getString("url");
-            notice  = json.getJSONObject(position-1).getString("notice");
-            holder.counter.setBackgroundResource(R.drawable.layout_bg);
-            holder.title.setText(title);
-            Picasso.with(activity).load(imgUrl).into(holder.icon);
-            holder.counter.setText(notice);
+                editor.putString("url_" + (position), url);
+                editor.apply();
+            } catch (JSONException e) {
 
-            editor.putString("url_"+(position), url);
-            editor.apply();
-        } catch (JSONException e) {
+                holder.title.setText(title);
+                Picasso.with(activity).load(imgUrl).into(holder.icon);
+                holder.counter.setText("");
+                editor.putString("url_" + (position), url);
+                editor.apply();
 
-            holder.title.setText(title);
-            Picasso.with(activity).load(imgUrl).into(holder.icon);
-            holder.counter.setText("");
-            editor.putString("url_"+(position), url);
-            editor.apply();
-
+            }
         }
-        }
-
 
 
         return vi;
