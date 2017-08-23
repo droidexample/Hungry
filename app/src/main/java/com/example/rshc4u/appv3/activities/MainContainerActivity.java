@@ -26,6 +26,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -93,6 +94,8 @@ public class MainContainerActivity extends AppCompatActivity
     private RecyclerView pull_recycler;
     // private String pull_url;
     private Context mContext;
+
+    String device_id = "";
 
 
     private ActionBarDrawerToggle toggle;
@@ -266,9 +269,18 @@ public class MainContainerActivity extends AppCompatActivity
          *   set main pages
          */
 
+
+        TelephonyManager tManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        device_id = tManager.getDeviceId();
+
+        Log.e("deviceId", device_id);
+
         setHomePage();
 
 
+        /**
+         *   drawer icon set
+         */
         setActionDrawableLeftRightIcon();
 
         startService(new Intent(this.getApplicationContext(), NotificationService.class));
@@ -511,8 +523,11 @@ public class MainContainerActivity extends AppCompatActivity
             ;
             // Getting JSON from URL
 
+            /**
+             *   add device id in API parameter
+             */
 
-            JSONArray json = jParser.getJSONFromUrl(Menu_API, MainContainerActivity.this);
+            JSONArray json = jParser.getJSONFromUrl(Menu_API + "/device_id-" + device_id, MainContainerActivity.this);
 
             try {
                 Log.v("JSON", json.toString());
