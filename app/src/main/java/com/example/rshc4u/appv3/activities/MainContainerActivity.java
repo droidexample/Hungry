@@ -377,13 +377,9 @@ public class MainContainerActivity extends AppCompatActivity
         } else if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
         } else {
-            if (currentHomeStatus) {
-                exitByBackKey();
-            } else {
-                //exitByBackKey();
+            // if (currentHomeStatus) {
+            exitDialog();
 
-                super.onBackPressed();
-            }
         }
     }
 
@@ -416,7 +412,7 @@ public class MainContainerActivity extends AppCompatActivity
 
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            exitByBackKey();
+            exitDialog();
             return true;
         }
         return super.onKeyLongPress(keyCode, event);
@@ -435,7 +431,7 @@ public class MainContainerActivity extends AppCompatActivity
                 } else if (drawer.isDrawerOpen(GravityCompat.END)) {
                     drawer.closeDrawer(GravityCompat.END);
                 } else {
-                    exitByBackKey();
+                    exitDialog();
                 }
 
             } else if (CommonWebViewFragment.isLoading == false) {
@@ -461,7 +457,7 @@ public class MainContainerActivity extends AppCompatActivity
     }
 
 
-    protected void exitByBackKey() {
+    protected void exitDialog() {
 
         AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
         alertbox.setMessage("Do you want to exit application?");
@@ -485,6 +481,36 @@ public class MainContainerActivity extends AppCompatActivity
         alertbox.show();
 
     }
+//
+/*
+    private void exitDialog() {
+
+
+        final SweetAlertDialog pDialog = new SweetAlertDialog(MainContainerActivity.this, SweetAlertDialog.WARNING_TYPE);
+        pDialog.getProgressHelper().setBarColor(R.color.colorPrimaryDark);
+        pDialog.setTitleText("Do you want to exit application?");
+
+        pDialog.setCancelable(true);
+
+        pDialog.setConfirmText("Yes")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                        pDialog.dismiss();
+                    }
+                });
+
+        pDialog.setCancelText("No")
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        pDialog.dismiss();
+                    }
+                });
+        pDialog.show();
+    }
+*/
 
     @Override
     public void reload() {
