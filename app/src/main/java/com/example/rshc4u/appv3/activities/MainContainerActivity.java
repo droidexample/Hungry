@@ -34,6 +34,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rshc4u.appv3.R;
@@ -48,7 +49,6 @@ import com.example.rshc4u.appv3.data_model.menu_content.Pullup;
 import com.example.rshc4u.appv3.fragment.CommonWebViewFragment;
 import com.example.rshc4u.appv3.fragment.HomeFragment;
 import com.example.rshc4u.appv3.services.NotificationService;
-import com.example.rshc4u.appv3.utils.BadgeDrawerArrowDrawable;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.JSONParser;
 import com.example.rshc4u.appv3.utils.RecyclerTouchListener;
@@ -80,8 +80,10 @@ public class MainContainerActivity extends AppCompatActivity
         implements URLParams, CommonWebViewFragment.ReloadJsonCallback {
 
     private DrawerLayout drawer;
-    private ImageView logoIcon;
-    private ImageView imvPullButton, imgPull;
+    private ImageView menuLeft;
+    private ImageView menuRight;
+    private ImageView toolBarLogo;
+    private TextView tvBadgeCounter;
 
     private NavigationView navigationViewRight;
     private NavigationView navigationViewLeft;
@@ -92,10 +94,8 @@ public class MainContainerActivity extends AppCompatActivity
     // private String pull_url;
     private Context mContext;
 
-    private String badgeCounter = "0";
 
     private ActionBarDrawerToggle toggle;
-    private BadgeDrawerArrowDrawable badgeDrawable;
 
     private LinearLayoutManager mLayoutManager;
     private ListView menuList;
@@ -116,8 +116,10 @@ public class MainContainerActivity extends AppCompatActivity
 
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        logoIcon = (ImageView) findViewById(R.id.menuLeft);
-        imvPullButton = (ImageView) findViewById(R.id.menuRight);
+        menuLeft = (ImageView) findViewById(R.id.menuLeft);
+        menuRight = (ImageView) findViewById(R.id.menuRight);
+        toolBarLogo = (ImageView) findViewById(R.id.toolbar_logo);
+        tvBadgeCounter = (TextView) findViewById(R.id.tvbadgeCounter);
 
         navigationViewLeft = (NavigationView) findViewById(R.id.nav_view_left);
         navigationViewRight = (NavigationView) findViewById(R.id.nav_view_right);
@@ -142,7 +144,7 @@ public class MainContainerActivity extends AppCompatActivity
         }
 
 
-        logoIcon.setOnClickListener(new View.OnClickListener() {
+        menuLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -156,8 +158,7 @@ public class MainContainerActivity extends AppCompatActivity
         });
 
 
-
-        imvPullButton.setOnClickListener(new View.OnClickListener() {
+        menuRight.setOnClickListener(new View.OnClickListener() {
 
 
             @Override
@@ -200,22 +201,6 @@ public class MainContainerActivity extends AppCompatActivity
             }
         };
 
-        badgeDrawable = new BadgeDrawerArrowDrawable(getSupportActionBar().getThemedContext());
-
-        toggle.setDrawerArrowDrawable(badgeDrawable);
-
-        badgeDrawable.setText(badgeCounter);
-
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-*/
-        /*
-
-        View header = navigationViewRight.getHeaderView(0);
-        pullTitle = (TextView) header.findViewById(R.id.pull_title);
-        pullDetails = (TextView) header.findViewById(R.id.pull_details);
-        imgPull = (ImageView) header.findViewById(R.id.imgPull);
 
 */
 
@@ -284,6 +269,8 @@ public class MainContainerActivity extends AppCompatActivity
         setHomePage();
 
 
+        setActionDrawableLeftRightIcon();
+
         startService(new Intent(this.getApplicationContext(), NotificationService.class));
 
     }
@@ -307,12 +294,52 @@ public class MainContainerActivity extends AppCompatActivity
 
                     pullupContentArrayList = model.get(0).getPullup();
 
-
                     pullMenuAdapter = new PullMenuAdapter(getApplicationContext(), pullupContentArrayList);
                     pull_recycler.setAdapter(pullMenuAdapter);
 
 
                     navProgressBar.setVisibility(View.GONE);
+
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<HomeContent>> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+
+    private void setActionDrawableLeftRightIcon() {
+
+        final ApplicationConfig apiReader = AppClient.getApiService();
+
+
+        Call<ArrayList<HomeContent>> list = apiReader.getHomeData();
+
+        list.enqueue(new Callback<ArrayList<HomeContent>>() {
+            @Override
+            public void onResponse(Call<ArrayList<HomeContent>> call, Response<ArrayList<HomeContent>> response) {
+
+                if (response.isSuccessful()) {
+
+
+                    ArrayList<HomeContent> model = response.body();
+
+
+                    Picasso.with(mContext).load(model.get(0).getMenu_icon()).
+                            placeholder(R.drawable.ic_dehaze_black_24dp).error(
+                            R.drawable.ic_dehaze_black_24dp).into(menuLeft);
+
+                    Picasso.with(mContext).load(model.get(0).getRight_reveal_icon()).
+                            placeholder(R.drawable.ic_open_in_new_black_24dp).error(
+                            R.drawable.ic_open_in_new_black_24dp).into(menuRight);
 
 
                 } else {
@@ -561,7 +588,7 @@ public class MainContainerActivity extends AppCompatActivity
             MenuAdapter adapter = new MenuAdapter(MainContainerActivity.this, json, attrs);
             menuList.setAdapter(adapter);
 
-        //   badgeDrawable.setText(menuCount);
+            tvBadgeCounter.setText(menuCount);
 
 
 /*
@@ -583,7 +610,7 @@ public class MainContainerActivity extends AppCompatActivity
             try {
                 Picasso.with(MainContainerActivity.this)
                         .load(jsonMenu[0].getLogo().toString())
-                        .into(logoIcon);
+                        .into(toolBarLogo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
