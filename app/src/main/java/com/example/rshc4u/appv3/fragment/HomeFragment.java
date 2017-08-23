@@ -58,6 +58,7 @@ public class HomeFragment extends Fragment implements URLParams {
     private TextView welcomeText, txtScanner, txtGo;
     private ImageView ivScanerIcon, ivGo, ivLogo;
     private CoordinatorLayout main_layout;
+    private LinearLayout mainLayout;
 
     @Nullable
     @Override
@@ -163,6 +164,7 @@ public class HomeFragment extends Fragment implements URLParams {
     private void initAll(View view) {
 
         layout_btnGo = (LinearLayout) view.findViewById(R.id.layoutGo);
+        mainLayout = (LinearLayout) view.findViewById(R.id.layout_home_id);
         layout_qr_scanner = (LinearLayout) view.findViewById(R.id.layoutScan);
         btnOrder = (Button) view.findViewById(R.id.btnOrder);
         progressBar = (ProgressBar) view.findViewById(R.id.homeProgress);
@@ -217,7 +219,8 @@ public class HomeFragment extends Fragment implements URLParams {
 
                         try {
 
-                            main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
+                           // main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
+                            mainLayout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
 
 
                         } catch (Exception e) {
@@ -225,7 +228,8 @@ public class HomeFragment extends Fragment implements URLParams {
                             Picasso.with(mContext).load(model.get(i).getBackground_image()).into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                    main_layout.setBackground(new BitmapDrawable(bitmap));
+                                    mainLayout.setBackground(new BitmapDrawable(bitmap));
+                                  //  main_layout.setBackground(new BitmapDrawable(bitmap));
                                 }
 
                                 @Override
