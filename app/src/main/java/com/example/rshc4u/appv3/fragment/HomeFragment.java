@@ -2,7 +2,10 @@ package com.example.rshc4u.appv3.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -30,6 +33,7 @@ import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
 import com.google.zxing.Result;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -206,7 +210,7 @@ public class HomeFragment extends Fragment implements URLParams {
 
                         Log.e("test", model.get(i).getGo_button().getUrl());
 
-                        Picasso.with(mContext).load(model.get(i).getLogo()).
+                        Picasso.with(mContext).load(model.get(i).getBanner()).
                                 placeholder(R.drawable.logo_icon).error(
                                 R.drawable.logo_icon).into(ivLogo);
 
@@ -215,9 +219,29 @@ public class HomeFragment extends Fragment implements URLParams {
 
                             main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
 
+
                         } catch (Exception e) {
 
+                            Picasso.with(mContext).load(model.get(i).getBackground_image()).into(new Target() {
+                                @Override
+                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                    main_layout.setBackground(new BitmapDrawable(bitmap));
+                                }
+
+                                @Override
+                                public void onBitmapFailed(Drawable errorDrawable) {
+
+                                }
+
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                                }
+                            });
+
+
                         }
+
 
                         btnOrder.setText(model.get(i).getBottom_bar_text());
 

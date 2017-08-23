@@ -27,10 +27,14 @@ public class HomeContent {
     @Expose
     private String banner;
 
-
     @SerializedName("background_color")
     @Expose
     private String background_color;
+
+    @SerializedName("background_image")
+    @Expose
+    private String background_image;
+
 
     @SerializedName("bar_color")
     @Expose
@@ -340,5 +344,9 @@ public class HomeContent {
 
     public void setPullup(ArrayList<PullupContent> pullup) {
         this.pullup = pullup;
+    }
+
+    public String getBackground_image() {
+        return background_image;
     }
 }

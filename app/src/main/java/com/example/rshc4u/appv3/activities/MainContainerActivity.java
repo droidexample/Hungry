@@ -142,6 +142,21 @@ public class MainContainerActivity extends AppCompatActivity
         }
 
 
+        logoIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+
+                }
+            }
+        });
+
+
+
         imvPullButton.setOnClickListener(new View.OnClickListener() {
 
 
@@ -160,6 +175,11 @@ public class MainContainerActivity extends AppCompatActivity
                 }
             }
         });
+
+
+        /*
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(R.drawable.ic_dmenu);
 
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
@@ -189,6 +209,7 @@ public class MainContainerActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+*/
         /*
 
         View header = navigationViewRight.getHeaderView(0);
@@ -540,7 +561,7 @@ public class MainContainerActivity extends AppCompatActivity
             MenuAdapter adapter = new MenuAdapter(MainContainerActivity.this, json, attrs);
             menuList.setAdapter(adapter);
 
-            badgeDrawable.setText(menuCount);
+        //   badgeDrawable.setText(menuCount);
 
 
 /*
