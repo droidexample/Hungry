@@ -71,6 +71,8 @@ import org.json.JSONException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -282,12 +284,24 @@ public class MainActivity extends AppCompatActivity
 
 
         if (Constants.loadFromQr) {
-            currentHomeStatus = true;
+
+            currentHomeStatus = false;
 
 
             if (!Constants.scanURL.isEmpty()) {
 
-                Fragment f = CommonWebViewFragment.newInstance(Constants.scanURL);
+                String encodedurl = "";
+
+                try {
+                    String url = Constants.scanURL;
+                    encodedurl = URLEncoder.encode(url, "UTF-8");
+                    Log.e("TEST", Encoder_URL_Header + encodedurl);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+
+                Fragment f = CommonWebViewFragment.newInstance(Encoder_URL_Header + encodedurl);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, f, "1234");

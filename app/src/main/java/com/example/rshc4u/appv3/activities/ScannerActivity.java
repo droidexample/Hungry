@@ -8,12 +8,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.webkit.URLUtil;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.rshc4u.appv3.R;
 import com.example.rshc4u.appv3.fragment.CommonWebViewFragment;
 import com.example.rshc4u.appv3.utils.Constants;
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.google.zxing.WriterException;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -73,15 +80,17 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             Constants.loadFromQr = true;
             Constants.scanURL = result.getText();
 
+
             Intent intent = new Intent(ScannerActivity.this, MainActivity.class);
 
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // intent.putExtra("qr_url", result.getText());
             startActivity(intent);
 
 
-        } else {
+        } else
+
+        {
 
             Toast.makeText(ScannerActivity.this, "Can't result found", Toast.LENGTH_LONG).show();
         }

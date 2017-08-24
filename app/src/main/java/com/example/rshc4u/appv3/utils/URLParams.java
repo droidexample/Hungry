@@ -25,4 +25,5 @@ public interface URLParams {
     String Menu_API = "https://rrordering.247chow.com/demo/u-embed/mobileFetch-app_menu";
 
 
+    String Encoder_URL_Header = "https://rrordering.247chow.com/demo/u-qrValidate/?url=";
 }

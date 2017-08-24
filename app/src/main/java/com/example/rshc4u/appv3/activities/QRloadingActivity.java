@@ -145,7 +145,7 @@ public class QRloadingActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(QRloadingActivity.this, MainActivity.class);
 
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
     }
