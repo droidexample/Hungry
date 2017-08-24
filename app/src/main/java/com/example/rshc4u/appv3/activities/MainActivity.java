@@ -50,6 +50,7 @@ import com.example.rshc4u.appv3.data_model.menu_content.Pullup;
 import com.example.rshc4u.appv3.fragment.CommonWebViewFragment;
 import com.example.rshc4u.appv3.fragment.HomeFragment;
 import com.example.rshc4u.appv3.services.NotificationService;
+import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.JSONParser;
 import com.example.rshc4u.appv3.utils.RecyclerTouchListener;
@@ -220,7 +221,7 @@ public class MainActivity extends AppCompatActivity
                     setHomePage();
 
                 } else if (i == 1) {
-
+                    currentHomeStatus = false;
                     startActivity(new Intent(MainActivity.this, ScannerActivity.class));
 
                 } else if (getSupportFragmentManager().findFragmentByTag("123") == null) {
@@ -279,8 +280,25 @@ public class MainActivity extends AppCompatActivity
 
         Log.e("deviceId", device_id);
 
-        setHomePage();
 
+        if (Constants.loadFromQr) {
+            currentHomeStatus = true;
+
+
+            if (!Constants.scanURL.isEmpty()) {
+
+                Fragment f = CommonWebViewFragment.newInstance(Constants.scanURL);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, f, "1234");
+                fragmentTransaction.commit();
+
+            }
+
+        } else {
+            setHomePage();
+
+        }
 
         /**
          *   drawer icon set
@@ -373,21 +391,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    @Override
-    public void onBackPressed() {
-        // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
-            drawer.closeDrawer(GravityCompat.END);
-        } else {
-            // if (currentHomeStatus) {
-            exitDialog();
-
-        }
-    }
-
-
     private void fragmentSetForHome(Fragment fragment) {
 
         FragmentManager fragmentManagerHome = getSupportFragmentManager();
@@ -440,15 +443,21 @@ public class MainActivity extends AppCompatActivity
 
             } else if (CommonWebViewFragment.isLoading == false) {
 
-                if (CommonWebViewFragment.webView.canGoBack()) {
+                try {
+                    if (CommonWebViewFragment.webView.canGoBack()) {
 
-                    CommonWebViewFragment.webView.goBack();
+                        CommonWebViewFragment.webView.goBack();
 
-                } else if (!CommonWebViewFragment.webView.canGoBack()) {
+                    } else if (!CommonWebViewFragment.webView.canGoBack()) {
 
+                        setHomePage();
+                    }
+                } catch (Exception e) {
                     setHomePage();
                 }
 
+            } else {
+                setHomePage();
             }
 
 
@@ -649,7 +658,7 @@ public class MainActivity extends AppCompatActivity
 
 
             //  Picasso.with(MainActivity.this).load(jsonMenu[0].getRightRevealIcon()).into(pArrow);
-            Log.v("PullupContent", p.getText());
+            //  Log.v("PullupContent", p.getText());
             try {
                 //  Picasso.with(MainActivity.this).load(jsonMenu[0].getBanner().toString()).placeholder(R.drawable.ic_logo).into(pLogo);
             } catch (Exception e) {
@@ -743,4 +752,25 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onBackPressed() {
+        // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+
+
+        if (Constants.loadFromQr) {
+            setHomePage();
+            Constants.loadFromQr = false;
+        }
+
+        if (currentHomeStatus) {
+            exitDialog();
+        }
+
+
+    }
 }

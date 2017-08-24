@@ -12,4 +12,7 @@ public class Constants implements URLParams {
 
     public static String DIRECTION_URL = "";
 
+    public static boolean loadFromQr = false;
+    public static String scanURL = "";
+
 }
