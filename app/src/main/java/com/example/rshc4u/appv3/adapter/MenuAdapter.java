@@ -58,7 +58,7 @@ public class MenuAdapter extends BaseAdapter {
         if (json == null)
             return 0;
         else
-            return json.length() + 1;
+            return json.length() + 2;
     }
 
     public Object getItem(int position) {
@@ -110,15 +110,23 @@ public class MenuAdapter extends BaseAdapter {
             Picasso.with(activity).load(imgUrl).into(holder.icon);
             holder.title.setText(title);
             holder.counter.setText("");
+        } else if (position == 1) {
+
+            title = attrs.get(4);
+            imgUrl = attrs.get(5);
+            Picasso.with(activity).load(imgUrl).into(holder.icon);
+            holder.title.setText(title);
+            holder.counter.setText("");
+
         } else {
 
 
             try {
 
-                title = json.getJSONObject(position - 1).getString("title");
-                imgUrl = json.getJSONObject(position - 1).getString("icon");
-                url = json.getJSONObject(position - 1).getString("url");
-                notice = json.getJSONObject(position - 1).getString("notice");
+                title = json.getJSONObject(position - 2).getString("title");
+                imgUrl = json.getJSONObject(position - 2).getString("icon");
+                url = json.getJSONObject(position - 2).getString("url");
+                notice = json.getJSONObject(position - 2).getString("notice");
                 holder.counter.setBackgroundResource(R.drawable.layout_bg);
                 holder.title.setText(title);
                 Picasso.with(activity).load(imgUrl).into(holder.icon);
@@ -129,7 +137,7 @@ public class MenuAdapter extends BaseAdapter {
             } catch (JSONException e) {
 
                 holder.title.setText(title);
-                Picasso.with(activity).load(imgUrl).into(holder.icon);
+                Picasso.with(activity).load(imgUrl).placeholder(R.drawable.logo_icon).into(holder.icon);
                 holder.counter.setText("");
                 editor.putString("url_" + (position), url);
                 editor.apply();

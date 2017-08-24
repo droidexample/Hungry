@@ -219,17 +219,13 @@ public class HomeFragment extends Fragment implements URLParams {
 
                         try {
 
-                           // main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
-                            mainLayout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
-
-
-                        } catch (Exception e) {
+                            // main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
 
                             Picasso.with(mContext).load(model.get(i).getBackground_image()).into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                     mainLayout.setBackground(new BitmapDrawable(bitmap));
-                                  //  main_layout.setBackground(new BitmapDrawable(bitmap));
+                                    //  main_layout.setBackground(new BitmapDrawable(bitmap));
                                 }
 
                                 @Override
@@ -243,6 +239,10 @@ public class HomeFragment extends Fragment implements URLParams {
                                 }
                             });
 
+                        } catch (Exception e) {
+
+
+                            mainLayout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
 
                         }
 

@@ -77,7 +77,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainContainerActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements URLParams, CommonWebViewFragment.ReloadJsonCallback {
 
     private DrawerLayout drawer;
@@ -132,7 +132,7 @@ public class MainContainerActivity extends AppCompatActivity
 
         mContext = getApplicationContext();
         navProgressBar = (ProgressBar) findViewById(R.id.navProgressBar);
-        mLayoutManager = new LinearLayoutManager(MainContainerActivity.this, LinearLayoutManager.VERTICAL, false);
+        mLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
         pull_recycler.setLayoutManager(mLayoutManager);
         pull_recycler.setItemAnimator(new DefaultItemAnimator());
 
@@ -219,6 +219,10 @@ public class MainContainerActivity extends AppCompatActivity
 
                     setHomePage();
 
+                } else if (i == 1) {
+
+                    startActivity(new Intent(MainActivity.this, ScannerActivity.class));
+
                 } else if (getSupportFragmentManager().findFragmentByTag("123") == null) {
 
                     currentHomeStatus = false;
@@ -238,7 +242,7 @@ public class MainContainerActivity extends AppCompatActivity
         });
 
 
-        pull_recycler.addOnItemTouchListener(new RecyclerTouchListener(MainContainerActivity.this, pull_recycler,
+        pull_recycler.addOnItemTouchListener(new RecyclerTouchListener(MainActivity.this, pull_recycler,
                 new RecyclerTouchListener.ClickListener() {
                     @Override
                     public void onClick(View view, int position) {
@@ -486,7 +490,7 @@ public class MainContainerActivity extends AppCompatActivity
     private void exitDialog() {
 
 
-        final SweetAlertDialog pDialog = new SweetAlertDialog(MainContainerActivity.this, SweetAlertDialog.WARNING_TYPE);
+        final SweetAlertDialog pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
         pDialog.getProgressHelper().setBarColor(R.color.colorPrimaryDark);
         pDialog.setTitleText("Do you want to exit application?");
 
@@ -553,7 +557,7 @@ public class MainContainerActivity extends AppCompatActivity
              *   add device id in API parameter
              */
 
-            JSONArray json = jParser.getJSONFromUrl(Menu_API + "/device_id-" + device_id, MainContainerActivity.this);
+            JSONArray json = jParser.getJSONFromUrl(Menu_API + "/device_id-" + device_id, MainActivity.this);
 
             try {
                 Log.v("JSON", json.toString());
@@ -563,6 +567,10 @@ public class MainContainerActivity extends AppCompatActivity
                 attrs.add(json.getJSONObject(0).getString("home_link"));
                 attrs.add(json.getJSONObject(0).getString("home_link_icon"));
 
+                attrs.add(json.getJSONObject(0).getString("scan_link"));
+                attrs.add(json.getJSONObject(0).getString("scan_link_icon"));
+
+                //  Log.e("sanL", json.getJSONObject(0).getString("scan_link"));
 
                 json1 = json.getJSONArray(1);
 
@@ -573,7 +581,7 @@ public class MainContainerActivity extends AppCompatActivity
             try {
 
                 String SharedPrefName = "menubus";
-                SharedPreferences preferences = MainContainerActivity.this.getSharedPreferences(SharedPrefName, Context.MODE_PRIVATE);
+                SharedPreferences preferences = MainActivity.this.getSharedPreferences(SharedPrefName, Context.MODE_PRIVATE);
                 String notifierId = preferences.getString("cookie", "");
 
                 if (notifierId.equals("")) {
@@ -626,7 +634,7 @@ public class MainContainerActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(final JSONArray json) {
             /*pDialog.dismiss();*/
-            MenuAdapter adapter = new MenuAdapter(MainContainerActivity.this, json, attrs);
+            MenuAdapter adapter = new MenuAdapter(MainActivity.this, json, attrs);
             menuList.setAdapter(adapter);
 
             tvBadgeCounter.setText(menuCount);
@@ -637,19 +645,19 @@ public class MainContainerActivity extends AppCompatActivity
             pTitle.setText(p.getTitle().toString());
             tvContent.setText(p.getText().toString());
 */
-            // Picasso.with(MainContainerActivity.this).load(jsonMenu[0].getMenuIcon()).into(burger);
+            // Picasso.with(MainActivity.this).load(jsonMenu[0].getMenuIcon()).into(burger);
 
 
-            //  Picasso.with(MainContainerActivity.this).load(jsonMenu[0].getRightRevealIcon()).into(pArrow);
+            //  Picasso.with(MainActivity.this).load(jsonMenu[0].getRightRevealIcon()).into(pArrow);
             Log.v("PullupContent", p.getText());
             try {
-                //  Picasso.with(MainContainerActivity.this).load(jsonMenu[0].getBanner().toString()).placeholder(R.drawable.ic_logo).into(pLogo);
+                //  Picasso.with(MainActivity.this).load(jsonMenu[0].getBanner().toString()).placeholder(R.drawable.ic_logo).into(pLogo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             try {
-                Picasso.with(MainContainerActivity.this)
+                Picasso.with(MainActivity.this)
                         .load(jsonMenu[0].getLogo().toString())
                         .into(toolBarLogo);
             } catch (Exception e) {
@@ -701,10 +709,10 @@ public class MainContainerActivity extends AppCompatActivity
             }
             cartTotalS = jsonMenu[0].getCartTotalFormatted();
 
-            MainContainerActivity.cartTotal.setText(cartTotalS);
+            MainActivity.cartTotal.setText(cartTotalS);
             Log.v("CartTotal", cartTotalS + "    " + cartImgUrl);
             try {
-                MainContainerActivity.cartTotal.setTextColor(Color.parseColor(cartColor));
+                MainActivity.cartTotal.setTextColor(Color.parseColor(cartColor));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -714,7 +722,7 @@ public class MainContainerActivity extends AppCompatActivity
                 e.printStackTrace();
             }
             try {
-                Picasso.with(MainContainerActivity.this).load(cartImgUrl).fit().centerInside().into(MainContainerActivity.cartLogo);
+                Picasso.with(MainActivity.this).load(cartImgUrl).fit().centerInside().into(MainActivity.cartLogo);
             } catch (Exception e) {
                 e.printStackTrace();
             }

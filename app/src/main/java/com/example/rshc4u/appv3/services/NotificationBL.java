@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.example.rshc4u.appv3.R;
-import com.example.rshc4u.appv3.activities.MainContainerActivity;
+import com.example.rshc4u.appv3.activities.MainActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class NotificationBL {
 		// enable to bug for notification below
 		// notification.flags |= Notification.FLAG_INSISTENT;
         
-        Intent notificationIntent = new Intent(appContext, MainContainerActivity.class);
+        Intent notificationIntent = new Intent(appContext, MainActivity.class);
         
         notificationIntent.putExtra("URL", entity.URL);
         // The PendingIntent to launch our activity if the user selects this notification
@@ -90,7 +90,7 @@ public class NotificationBL {
 
         long time = System.currentTimeMillis();
 
-        PendingIntent contentIntent = PendingIntent.getActivity(appContext, 0, new Intent(appContext, MainContainerActivity.class), 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(appContext, 0, new Intent(appContext, MainActivity.class), 0);
 
         Notification.Builder builder = new Notification.Builder(appContext)
                 .setSmallIcon(icon)

@@ -15,7 +15,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.rshc4u.appv3.R;
-import com.example.rshc4u.appv3.fragment.CommonWebViewFragment;
 
 public class QRloadingActivity extends AppCompatActivity {
 
@@ -144,7 +143,7 @@ public class QRloadingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(QRloadingActivity.this, MainContainerActivity.class);
+        Intent intent = new Intent(QRloadingActivity.this, MainActivity.class);
 
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
