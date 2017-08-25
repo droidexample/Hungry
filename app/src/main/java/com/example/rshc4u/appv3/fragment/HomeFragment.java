@@ -31,13 +31,11 @@ import com.example.rshc4u.appv3.data_model.home_data.HomeContent;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
 import com.example.rshc4u.appv3.utils.URLParams;
-import com.google.zxing.Result;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,8 +55,7 @@ public class HomeFragment extends Fragment implements URLParams {
 
     private TextView welcomeText, txtScanner, txtGo;
     private ImageView ivScanerIcon, ivGo, ivLogo;
-    private CoordinatorLayout main_layout;
-    private LinearLayout mainLayout;
+    private CoordinatorLayout mainLayout;
 
     @Nullable
     @Override
@@ -72,7 +69,9 @@ public class HomeFragment extends Fragment implements URLParams {
 
 
         if (InternetChecker.isNetworkAvailable(mContext)) {
+
             getData();
+
         } else {
             Toast.makeText(mContext, "Internet Connect Error !",
                     Toast.LENGTH_LONG).show();
@@ -164,11 +163,10 @@ public class HomeFragment extends Fragment implements URLParams {
     private void initAll(View view) {
 
         layout_btnGo = (LinearLayout) view.findViewById(R.id.layoutGo);
-        mainLayout = (LinearLayout) view.findViewById(R.id.layout_home_id);
+        mainLayout = (CoordinatorLayout) view.findViewById(R.id.layout_home);
         layout_qr_scanner = (LinearLayout) view.findViewById(R.id.layoutScan);
         btnOrder = (Button) view.findViewById(R.id.btnOrder);
         progressBar = (ProgressBar) view.findViewById(R.id.homeProgress);
-        main_layout = (CoordinatorLayout) view.findViewById(R.id.layout_home);
         welcomeText = (TextView) view.findViewById(R.id.tvWelcome);
         txtScanner = (TextView) view.findViewById(R.id.txtScan);
         txtGo = (TextView) view.findViewById(R.id.txtGo);
@@ -205,124 +203,124 @@ public class HomeFragment extends Fragment implements URLParams {
                     ArrayList<HomeContent> model = response.body();
 
 
-                    for (int i = 0; i < model.size(); i++) {
+                    // for (int i = 0; i < model.size(); i++) {
 
 
-                        welcomeText.setText(model.get(i).getWelcome_text());
+                    try {
 
-                        Log.e("test", model.get(i).getGo_button().getUrl());
+                        // main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
 
-                        Picasso.with(mContext).load(model.get(i).getBanner()).
-                                placeholder(R.drawable.logo_icon).error(
-                                R.drawable.logo_icon).into(ivLogo);
+                        Picasso.with(mContext).load(model.get(0).getBackground_image()).into(new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                mainLayout.setBackground(new BitmapDrawable(bitmap));
 
+                            }
 
-                        try {
+                            @Override
+                            public void onBitmapFailed(Drawable errorDrawable) {
 
-                            // main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
+                            }
 
-                            Picasso.with(mContext).load(model.get(i).getBackground_image()).into(new Target() {
-                                @Override
-                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                    mainLayout.setBackground(new BitmapDrawable(bitmap));
-                                    //  main_layout.setBackground(new BitmapDrawable(bitmap));
-                                }
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
 
-                                @Override
-                                public void onBitmapFailed(Drawable errorDrawable) {
+                            }
+                        });
 
-                                }
-
-                                @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                }
-                            });
-
-                        } catch (Exception e) {
+                    } catch (Exception e) {
 
 
-                            mainLayout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
-
-                        }
-
-
-                        btnOrder.setText(model.get(i).getBottom_bar_text());
-
-                        try {
-                            btnOrder.setBackgroundColor(Color.parseColor(model.get(i).getBottom_bar_bg()));
-                            btnOrder.setTextColor(Color.parseColor(model.get(i).getBottom_bar_color()));
-
-                            welcomeText.setTextColor(Color.parseColor(model.get(i).getText_color()));
-
-                        } catch (Exception e) {
-
-                            btnOrder.setBackgroundColor(Color.parseColor("#" + model.get(i).getBottom_bar_bg()));
-
-                            btnOrder.setTextColor(Color.parseColor("#" + model.get(i).getBottom_bar_color()));
-
-                            welcomeText.setTextColor(Color.parseColor("#" + model.get(i).getText_color()));
-
-                        }
-
-                        order_button_url = model.get(i).getBottom_bar_url();
-
-
-                        /**
-                         *  scan button press data
-                         */
-
-
-                        try {
-                            layout_qr_scanner.setBackgroundColor(Color.parseColor(model.get(i).getQr_button().getBackground()));
-
-                            txtScanner.setTextColor(Color.parseColor(model.get(i).getQr_button().getColor()));
-
-
-                        } catch (Exception e) {
-
-                            layout_qr_scanner.setBackgroundColor(Color.parseColor("#" + model.get(i).getBottom_bar_bg()));
-
-
-                            txtScanner.setTextColor(Color.parseColor("#" + model.get(i).getQr_button().getColor()));
-
-                        }
-
-                        Picasso.with(mContext).load(model.get(i).getQr_button().getIcon()).
-                                placeholder(R.drawable.ic_scan).error(
-                                R.drawable.ic_scan).into(ivScanerIcon);
-
-                        txtScanner.setText(model.get(i).getQr_button().getText());
-
-
-                        /**
-                         *  go button press data
-                         */
-
-                        go_button_url = model.get(i).getGo_button().getUrl();
-
-                        txtGo.setText(model.get(i).getGo_button().getText());
-
-                        Picasso.with(mContext).load(model.get(i).getGo_button().getIcon()).
-                                placeholder(R.drawable.ic_go).error(
-                                R.drawable.ic_go).into(ivGo);
-
-                        try {
-
-                            layout_btnGo.setBackgroundColor(Color.parseColor(model.get(i).getGo_button().getBackground()));
-
-                            txtGo.setTextColor(Color.parseColor(model.get(i).getGo_button().getColor()));
-
-
-                        } catch (Exception e) {
-
-                            layout_btnGo.setBackgroundColor(Color.parseColor("#" + model.get(i).getGo_button().getBackground()));
-
-                            txtGo.setTextColor(Color.parseColor("#" + model.get(i).getGo_button().getColor()));
-
-                        }
+                        mainLayout.setBackgroundColor(Color.parseColor(model.get(0).getBackground_color()));
 
                     }
+
+
+                    welcomeText.setText(model.get(0).getWelcome_text());
+
+                    Log.e("test", model.get(0).getGo_button().getUrl());
+
+                    Picasso.with(mContext).load(model.get(0).getBanner()).
+                            placeholder(R.drawable.logo_icon).error(
+                            R.drawable.logo_icon).into(ivLogo);
+
+
+                    btnOrder.setText(model.get(0).getBottom_bar_text());
+
+                    try {
+                        btnOrder.setBackgroundColor(Color.parseColor(model.get(0).getBottom_bar_bg()));
+                        btnOrder.setTextColor(Color.parseColor(model.get(0).getBottom_bar_color()));
+
+                        welcomeText.setTextColor(Color.parseColor(model.get(0).getText_color()));
+
+                    } catch (Exception e) {
+
+                        btnOrder.setBackgroundColor(Color.parseColor("#" + model.get(0).getBottom_bar_bg()));
+
+                        btnOrder.setTextColor(Color.parseColor("#" + model.get(0).getBottom_bar_color()));
+
+                        welcomeText.setTextColor(Color.parseColor("#" + model.get(0).getText_color()));
+
+                    }
+
+                    order_button_url = model.get(0).getBottom_bar_url();
+
+
+                    /**
+                     *  scan button press data
+                     */
+
+
+                    try {
+                        layout_qr_scanner.setBackgroundColor(Color.parseColor(model.get(0).getQr_button().getBackground()));
+
+                        txtScanner.setTextColor(Color.parseColor(model.get(0).getQr_button().getColor()));
+
+
+                    } catch (Exception e) {
+
+                        layout_qr_scanner.setBackgroundColor(Color.parseColor("#" + model.get(0).getBottom_bar_bg()));
+
+
+                        txtScanner.setTextColor(Color.parseColor("#" + model.get(0).getQr_button().getColor()));
+
+                    }
+
+                    Picasso.with(mContext).load(model.get(0).getQr_button().getIcon()).
+                            placeholder(R.drawable.ic_scan).error(
+                            R.drawable.ic_scan).into(ivScanerIcon);
+
+                    txtScanner.setText(model.get(0).getQr_button().getText());
+
+
+                    /**
+                     *  go button press data
+                     */
+
+                    go_button_url = model.get(0).getGo_button().getUrl();
+
+                    txtGo.setText(model.get(0).getGo_button().getText());
+
+                    Picasso.with(mContext).load(model.get(0).getGo_button().getIcon()).
+                            placeholder(R.drawable.ic_go).error(
+                            R.drawable.ic_go).into(ivGo);
+
+                    try {
+
+                        layout_btnGo.setBackgroundColor(Color.parseColor(model.get(0).getGo_button().getBackground()));
+
+                        txtGo.setTextColor(Color.parseColor(model.get(0).getGo_button().getColor()));
+
+
+                    } catch (Exception e) {
+
+                        layout_btnGo.setBackgroundColor(Color.parseColor("#" + model.get(0).getGo_button().getBackground()));
+
+                        txtGo.setTextColor(Color.parseColor("#" + model.get(0).getGo_button().getColor()));
+
+                    }
+
+                    // }
 
                     progressBar.setVisibility(View.GONE);
 

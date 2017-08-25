@@ -144,6 +144,8 @@ public class MainActivity extends AppCompatActivity
 
             new JSONParse().execute();
 
+            getPullData();
+
         } else {
             Toast.makeText(mContext, "Internet Connect Error !",
                     Toast.LENGTH_LONG).show();
@@ -170,7 +172,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                getPullData();
+                // getPullData();
 
                 if (drawer.isDrawerOpen(GravityCompat.END)) {
                     drawer.closeDrawer(GravityCompat.END);
@@ -183,32 +185,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-        /*
-        toggle.setDrawerIndicatorEnabled(false);
-        toggle.setHomeAsUpIndicator(R.drawable.ic_dmenu);
-
-
-        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
-
-            @Override
-            public void onDrawerClosed(View v) {
-
-                imvPullButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_open_in_new_black_24dp));
-
-                super.onDrawerClosed(v);
-            }
-
-            @Override
-            public void onDrawerOpened(View v) {
-
-                imvPullButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_dehaze_black_24dp));
-                super.onDrawerOpened(v);
-            }
-        };
-
-
-*/
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
@@ -478,6 +454,13 @@ public class MainActivity extends AppCompatActivity
             //moveTaskToBack(false);
 
             return true;
+        } else if (keyCode == KeyEvent.KEYCODE_HOME) {
+            Constants.loadFromQr = false;
+            finish();
+           // android.os.Process.killProcess(android.os.Process.myPid());
+
+        } else {
+            Constants.loadFromQr = false;
         }
 
         return super.onKeyDown(keyCode, event);
@@ -508,36 +491,7 @@ public class MainActivity extends AppCompatActivity
         alertbox.show();
 
     }
-//
-/*
-    private void exitDialog() {
 
-
-        final SweetAlertDialog pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
-        pDialog.getProgressHelper().setBarColor(R.color.colorPrimaryDark);
-        pDialog.setTitleText("Do you want to exit application?");
-
-        pDialog.setCancelable(true);
-
-        pDialog.setConfirmText("Yes")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        android.os.Process.killProcess(android.os.Process.myPid());
-                        pDialog.dismiss();
-                    }
-                });
-
-        pDialog.setCancelText("No")
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        pDialog.dismiss();
-                    }
-                });
-        pDialog.show();
-    }
-*/
 
     @Override
     public void reload() {
@@ -787,4 +741,6 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
 }
