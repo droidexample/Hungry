@@ -7,13 +7,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -58,6 +62,7 @@ import com.example.rshc4u.appv3.utils.URLParams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -92,7 +97,7 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationViewRight;
     private NavigationView navigationViewLeft;
 
-
+    private CoordinatorLayout main_coordinator_layout;
     private ProgressBar navProgressBar;
     private RecyclerView pull_recycler;
     // private String pull_url;
@@ -122,6 +127,7 @@ public class MainActivity extends AppCompatActivity
 
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        main_coordinator_layout = (CoordinatorLayout) findViewById(R.id.main_coordinator_layout);
         menuLeft = (ImageView) findViewById(R.id.menuLeft);
         menuRight = (ImageView) findViewById(R.id.menuRight);
         toolBarLogo = (ImageView) findViewById(R.id.toolbar_logo);
@@ -322,6 +328,32 @@ public class MainActivity extends AppCompatActivity
                     pull_recycler.setAdapter(pullMenuAdapter);
 
 
+                    try {
+
+                        Picasso.with(mContext).load(model.get(0).getBackground_image()).into(new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                main_coordinator_layout.setBackground(new BitmapDrawable(bitmap));
+
+                            }
+
+                            @Override
+                            public void onBitmapFailed(Drawable errorDrawable) {
+
+                            }
+
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                            }
+                        });
+
+
+                    } catch (Exception e) {
+
+                    }
+
+
                     navProgressBar.setVisibility(View.GONE);
 
 
@@ -457,7 +489,7 @@ public class MainActivity extends AppCompatActivity
         } else if (keyCode == KeyEvent.KEYCODE_HOME) {
             Constants.loadFromQr = false;
             finish();
-           // android.os.Process.killProcess(android.os.Process.myPid());
+            // android.os.Process.killProcess(android.os.Process.myPid());
 
         } else {
             Constants.loadFromQr = false;
