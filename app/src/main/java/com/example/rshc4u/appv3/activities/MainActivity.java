@@ -53,6 +53,7 @@ import com.example.rshc4u.appv3.data_model.home_data.PullupContent;
 import com.example.rshc4u.appv3.data_model.menu_content.Pullup;
 import com.example.rshc4u.appv3.fragment.CommonWebViewFragment;
 import com.example.rshc4u.appv3.fragment.HomeFragment;
+import com.example.rshc4u.appv3.fragment.ScannerWebFragment;
 import com.example.rshc4u.appv3.services.NotificationService;
 import com.example.rshc4u.appv3.utils.Constants;
 import com.example.rshc4u.appv3.utils.InternetChecker;
@@ -283,10 +284,10 @@ public class MainActivity extends AppCompatActivity
                 }
 
 
-                Fragment f = CommonWebViewFragment.newInstance(Encoder_URL_Header + encodedurl);
+                Fragment f = ScannerWebFragment.newInstance(Encoder_URL_Header + encodedurl);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, f, "1234");
+                fragmentTransaction.replace(R.id.content_frame, f, "124");
                 fragmentTransaction.commit();
 
             }
@@ -486,15 +487,7 @@ public class MainActivity extends AppCompatActivity
             //moveTaskToBack(false);
 
             return true;
-        } else if (keyCode == KeyEvent.KEYCODE_HOME) {
-            Constants.loadFromQr = false;
-            finish();
-            // android.os.Process.killProcess(android.os.Process.myPid());
-
-        } else {
-            Constants.loadFromQr = false;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
@@ -649,16 +642,6 @@ public class MainActivity extends AppCompatActivity
             tvBadgeCounter.setText(menuCount);
 
 
-/*
-
-            pTitle.setText(p.getTitle().toString());
-            tvContent.setText(p.getText().toString());
-*/
-            // Picasso.with(MainActivity.this).load(jsonMenu[0].getMenuIcon()).into(burger);
-
-
-            //  Picasso.with(MainActivity.this).load(jsonMenu[0].getRightRevealIcon()).into(pArrow);
-            //  Log.v("PullupContent", p.getText());
             try {
                 //  Picasso.with(MainActivity.this).load(jsonMenu[0].getBanner().toString()).placeholder(R.drawable.ic_logo).into(pLogo);
             } catch (Exception e) {
@@ -672,25 +655,6 @@ public class MainActivity extends AppCompatActivity
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-
-            /*
-
-            pContainer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Fragment f = WebViewFragment.newInstance(jsonMenu[0].getPullup().get(0).getUrl());
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.content, f, "123");
-                    fragmentTransaction.commit();
-                    drawerLayout.closeDrawer(Gravity.RIGHT);
-                }
-            });
-
-
-            */
 
 
             try {
@@ -707,47 +671,6 @@ public class MainActivity extends AppCompatActivity
             }
 
 
-
-            /*
-
-            cartColor = jsonMenu[0].getCartColor();
-            try {
-                cartImgUrl = attrs.get(4);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            cartTotalS = jsonMenu[0].getCartTotalFormatted();
-
-            MainActivity.cartTotal.setText(cartTotalS);
-            Log.v("CartTotal", cartTotalS + "    " + cartImgUrl);
-            try {
-                MainActivity.cartTotal.setTextColor(Color.parseColor(cartColor));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                cartContainer.setBackgroundColor(Color.parseColor(jsonMenu[0].getCartBackground()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                Picasso.with(MainActivity.this).load(cartImgUrl).fit().centerInside().into(MainActivity.cartLogo);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            cartContainer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Fragment f = WebViewFragment.newInstance(jsonMenu[0].getCartUrl());
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.content, f, "123");
-                    fragmentTransaction.commit();
-                }
-            });
-
-            */
         }
     }
 
@@ -773,6 +696,5 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
 
 }

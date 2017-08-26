@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -187,4 +189,14 @@ public class CommonWebViewFragment extends Fragment {
             throw new ClassCastException(activity.toString() + " must implement OnItemClickedListener");
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // fragmentSetForHome(new HomeFragment());
+
+    }
+
+
 }

@@ -27,7 +27,7 @@
 
     <style name="MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:windowDisablePreview">true</item>
+        <!--<item name="android:windowDisablePreview">true</item>-->
         <item name="android:windowAnimationStyle">@null</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
