@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         main_coordinator_layout = (CoordinatorLayout) findViewById(R.id.main_coordinator_layout);
         menuLeft = (ImageView) findViewById(R.id.menuLeft);
@@ -325,9 +324,14 @@ public class MainActivity extends AppCompatActivity
 
                     pullupContentArrayList = model.get(0).getPullup();
 
+
                     pullMenuAdapter = new PullMenuAdapter(getApplicationContext(), pullupContentArrayList);
                     pull_recycler.setAdapter(pullMenuAdapter);
 
+
+                    if (model.get(0).getHide_statusbar().equals("true")) {
+                        toolbar.setVisibility(View.GONE);
+                    }
 
                     try {
 
@@ -479,6 +483,8 @@ public class MainActivity extends AppCompatActivity
                     setHomePage();
                 }
 
+            } else if (keyCode == KeyEvent.KEYCODE_HOME) {
+                Log.e("BackPress", "backpress");
             } else {
                 setHomePage();
             }
@@ -663,15 +669,25 @@ public class MainActivity extends AppCompatActivity
                 e.printStackTrace();
             }
 
-            try {
-                toolbar.setBackgroundColor(Color.parseColor("#" + jsonMenu[0].getBarColor()));
-            } catch (Exception e) {
-                toolbar.setBackgroundColor(Color.parseColor(jsonMenu[0].getBarColor()));
-                e.printStackTrace();
+
+            if (toolbar.getVisibility() == View.VISIBLE) {
+
+                try {
+                    toolbar.setBackgroundColor(Color.parseColor("#" + jsonMenu[0].getBarColor()));
+                } catch (Exception e) {
+
+                    try {
+                        toolbar.setBackgroundColor(Color.parseColor(jsonMenu[0].getBarColor()));
+
+                    } catch (Exception ee) {
+                        ee.printStackTrace();
+                    }
+                    e.printStackTrace();
+                }
+
             }
-
-
         }
+
     }
 
 

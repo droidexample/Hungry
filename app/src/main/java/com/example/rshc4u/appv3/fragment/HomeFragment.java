@@ -236,7 +236,7 @@ public class HomeFragment extends Fragment implements URLParams {
                     } catch (Exception e) {
 
 
-                        mainLayout.setBackgroundColor(Color.parseColor(model.get(0).getBackground_color()));
+                        background_layout.setBackgroundColor(Color.parseColor(model.get(0).getBackground_color()));
 
                     }
 
