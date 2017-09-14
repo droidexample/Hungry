@@ -161,8 +161,6 @@ public class HomeFragment extends Fragment implements URLParams {
         });
 
 
-
-
         return view;
     }
 
@@ -340,7 +338,7 @@ public class HomeFragment extends Fragment implements URLParams {
                         redirectUrl = redirectList.get(0);
                         redirectTime = redirectList.get(1);
 
-                        Log.e("rediectU", redirectUrl + " time "+ redirectTime);
+                        Log.e("rediectU", redirectUrl + " time " + redirectTime);
                     }
 
 
@@ -354,12 +352,11 @@ public class HomeFragment extends Fragment implements URLParams {
 
                     if (!redirectUrl.isEmpty() && !redirectTime.isEmpty()) {
 
-                            redirectEnable(redirectUrl, redirectTime);
+                        redirectEnable(redirectUrl, redirectTime);
 
-                            Log.e("tryLO","try to load");
+                        Log.e("tryLO", "try to load");
 
                     }
-
 
 
                 } else {

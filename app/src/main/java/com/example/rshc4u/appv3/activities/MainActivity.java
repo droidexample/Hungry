@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity
 
 
         TelephonyManager tManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        device_id = tManager.getDeviceId();
+       // device_id = tManager.getDeviceId();
 
         Log.e("deviceId", device_id);
 
@@ -330,7 +330,9 @@ public class MainActivity extends AppCompatActivity
 
 
                     if (model.get(0).getHide_statusbar().equals("true")) {
-                        toolbar.setVisibility(View.GONE);
+                        toolbar.setVisibility(View.INVISIBLE);
+                    }else {
+                        toolbar.setVisibility(View.VISIBLE);
                     }
 
                     try {
