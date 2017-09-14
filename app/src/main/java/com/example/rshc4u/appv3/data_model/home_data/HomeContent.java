@@ -129,6 +129,15 @@ public class HomeContent {
     @Expose
     private ArrayList<PullupContent> pullup;
 
+    @SerializedName("redirect_enable")
+    @Expose
+    public ArrayList<String> redirect_enable;
+
+    @SerializedName("gps_status")
+    @Expose
+    public GpsStatus gps_status;
+
+
 
     public String getHide_statusbar() {
         return hide_statusbar;
@@ -348,5 +357,25 @@ public class HomeContent {
 
     public String getBackground_image() {
         return background_image;
+    }
+
+    public void setBackground_image(String background_image) {
+        this.background_image = background_image;
+    }
+
+    public ArrayList<String> getRedirect_enable() {
+        return redirect_enable;
+    }
+
+    public void setRedirect_enable(ArrayList<String> redirect_enable) {
+        this.redirect_enable = redirect_enable;
+    }
+
+    public GpsStatus getGps_status() {
+        return gps_status;
+    }
+
+    public void setGps_status(GpsStatus gps_status) {
+        this.gps_status = gps_status;
     }
 }

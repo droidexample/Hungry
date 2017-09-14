@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
@@ -57,6 +58,9 @@ public class HomeFragment extends Fragment implements URLParams {
     private ImageView ivScanerIcon, ivGo, ivLogo;
     private CoordinatorLayout mainLayout;
     private LinearLayout background_layout;
+
+    private String redirectUrl = "";
+    private String redirectTime = "";
 
     @Nullable
     @Override
@@ -157,6 +161,8 @@ public class HomeFragment extends Fragment implements URLParams {
         });
 
 
+
+
         return view;
     }
 
@@ -212,7 +218,6 @@ public class HomeFragment extends Fragment implements URLParams {
                     try {
 
                         // main_layout.setBackgroundColor(Color.parseColor(model.get(i).getBackground_color()));
-
 
 
                         Picasso.with(mContext).load(model.get(0).getBackground_image()).into(new Target() {
@@ -327,7 +332,35 @@ public class HomeFragment extends Fragment implements URLParams {
 
                     // }
 
+
+                    ArrayList<String> redirectList = model.get(0).getRedirect_enable();
+
+                    if (!redirectList.isEmpty() && redirectList.size() == 2) {
+
+                        redirectUrl = redirectList.get(0);
+                        redirectTime = redirectList.get(1);
+
+                        Log.e("rediectU", redirectUrl + " time "+ redirectTime);
+                    }
+
+
                     progressBar.setVisibility(View.GONE);
+
+
+                    /**
+                     * redirect fuction call
+                     */
+
+
+                    if (!redirectUrl.isEmpty() && !redirectTime.isEmpty()) {
+
+                            redirectEnable(redirectUrl, redirectTime);
+
+                            Log.e("tryLO","try to load");
+
+                    }
+
+
 
                 } else {
                     Log.e("home", "Data loding failed");
@@ -340,6 +373,41 @@ public class HomeFragment extends Fragment implements URLParams {
             }
         });
 
+
+    }
+
+    /**
+     * redirect link
+     */
+
+
+    private void redirectEnable(String Url, String time) {
+
+
+        try {
+            //sleep  seconds
+            // Thread.sleep(1000 * Integer.parseInt(time));
+
+            final String URL = Url;
+            final int delayTime = 1000 * Integer.parseInt(time);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Fragment f = ScannerWebFragment.newInstance(URL);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, f, "124");
+                    fragmentTransaction.commit();
+
+                }
+            }, delayTime);
+
+
+        } catch (Exception e) {
+
+        }
 
     }
 

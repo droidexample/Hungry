@@ -517,6 +517,7 @@ public class MainActivity extends AppCompatActivity
 
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
+                setHomePage();
             }
         });
         alertbox.show();
