@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -78,8 +79,10 @@ public class HomeFragment extends Fragment implements URLParams {
             getData();
 
         } else {
-            Toast.makeText(mContext, "Internet Connect Error !",
-                    Toast.LENGTH_LONG).show();
+//            Toast.makeText(mContext, "Internet Connect Error !",
+//                    Toast.LENGTH_LONG).show();
+
+            Snackbar.make(mainLayout, "Please check internet connection !", 10000).show();
         }
 
 
@@ -328,6 +331,13 @@ public class HomeFragment extends Fragment implements URLParams {
 
                     }
 
+
+                    if (model.get(0).getHide_statusbar().equals("true")) {
+                        //mainLayout.sethei
+                    } else {
+
+                    }
+
                     // }
 
 
@@ -342,11 +352,8 @@ public class HomeFragment extends Fragment implements URLParams {
                     }
 
 
-                    progressBar.setVisibility(View.GONE);
-
-
                     /**
-                     * redirect fuction call
+                     * redirect function call
                      */
 
 
@@ -357,6 +364,8 @@ public class HomeFragment extends Fragment implements URLParams {
                         Log.e("tryLO", "try to load");
 
                     }
+
+                    progressBar.setVisibility(View.GONE);
 
 
                 } else {

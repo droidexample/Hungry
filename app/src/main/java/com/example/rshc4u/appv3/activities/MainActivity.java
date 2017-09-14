@@ -19,6 +19,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -153,8 +154,7 @@ public class MainActivity extends AppCompatActivity
             getPullData();
 
         } else {
-            Toast.makeText(mContext, "Internet Connect Error !",
-                    Toast.LENGTH_LONG).show();
+            Snackbar.make(main_coordinator_layout, "Please check internet connection !", 10000).show();
         }
 
 
@@ -204,10 +204,17 @@ public class MainActivity extends AppCompatActivity
 
                     setHomePage();
 
+                    pull_recycler.setVisibility(View.VISIBLE);
+                    menuRight.setVisibility(View.VISIBLE);
+                    navigationViewRight.setVisibility(View.VISIBLE);
+
                 } else if (i == 1) {
                     currentHomeStatus = false;
                     startActivity(new Intent(MainActivity.this, ScannerActivity.class));
 
+                    pull_recycler.setVisibility(View.GONE);
+                    menuRight.setVisibility(View.GONE);
+                    navigationViewRight.setVisibility(View.GONE);
                 } else if (getSupportFragmentManager().findFragmentByTag("123") == null) {
 
                     currentHomeStatus = false;
@@ -217,8 +224,16 @@ public class MainActivity extends AppCompatActivity
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.content_frame, f, "123");
                     fragmentTransaction.commit();
+
+                    pull_recycler.setVisibility(View.GONE);
+                    menuRight.setVisibility(View.GONE);
+                    navigationViewRight.setVisibility(View.GONE);
+
                 } else {
                     CommonWebViewFragment.webView.loadUrl(preferences.getString("url_" + i, "123"));
+                    pull_recycler.setVisibility(View.GONE);
+                    menuRight.setVisibility(View.GONE);
+                    navigationViewRight.setVisibility(View.GONE);
                 }
 
                 drawer.closeDrawer(Gravity.LEFT);
@@ -260,7 +275,7 @@ public class MainActivity extends AppCompatActivity
 
 
         TelephonyManager tManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-       // device_id = tManager.getDeviceId();
+        device_id = tManager.getDeviceId();
 
         Log.e("deviceId", device_id);
 
@@ -331,7 +346,7 @@ public class MainActivity extends AppCompatActivity
 
                     if (model.get(0).getHide_statusbar().equals("true")) {
                         toolbar.setVisibility(View.INVISIBLE);
-                    }else {
+                    } else {
                         toolbar.setVisibility(View.VISIBLE);
                     }
 
